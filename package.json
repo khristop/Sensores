@@ -1,0 +1,35 @@
+{
+  "name": "sensores",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "angular": "~1.5.8",
+    "body-parser": "~1.15.2",
+    "bootstrap": "~3.3.7",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.14.0",
+    "jade": "~1.11.0",
+    "jquery": "~3.1.1",
+    "morgan": "~1.7.0",
+    "serialport": "^4.0.6",
+    "serve-favicon": "~2.3.0",
+    "socket.io": "^1.5.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-less": "^1.4.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-express": "^1.4.1",
+    "grunt-parallel": "^0.5.1",
+    "livereload": "^0.6.0",
+    "nodemon": "^1.11.0"
+  }
+}
