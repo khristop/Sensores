@@ -56,7 +56,6 @@ app.use(function(err, req, res, next) {
 });
 
 
-
 //puerto serial
 var serialport = require('serialport');
 var SerialPort = serialport;
@@ -94,5 +93,13 @@ mySerial.on("data", function (dato) {
     });
   }
 });
+
+var livereload = require('livereload').createServer({
+    exts:['js','css','jade']
+});
+
+livereload.watch(path.join(__dirname, 'views'));
+livereload.watch(path.join(__dirname, 'public'));
+
 //hasta aca
 module.exports = app;
