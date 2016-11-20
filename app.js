@@ -8,9 +8,6 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-//socket
-var http = require("http");
-var io = require("socket.io")(http);
 
 //mis rutas
 var inicio = require('./routes/inicio');
@@ -18,6 +15,7 @@ var temperatura = require('./routes/temperatura');
 //fin de mis rutas
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,19 +55,29 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var livereload = require('livereload').createServer({
-  exts:['js','css','jade']
-});
-
-livereload.watch(path.join(__dirname, 'views'));
-livereload.watch(path.join(__dirname, 'public'));
 
 //puerto serial
 var serialport = require('serialport');
-var SerialPort = serialport.SerialPort;
+var SerialPort = serialport;
 
-var mySerial = new SerialPort("/dev/ttyS0",{
-    baudrate:9600,
+//socket
+var http = require("http");
+
+var serv = http.createServer(app);
+var io = require("socket.io").listen(serv);
+serv.listen(8080, "127.0.0.1");
+//socket io
+
+io.on('connection', function (socket) {
+  console.log("alguien se conecto");
+  socket.on('disconnect', function () {
+      console.log("alguien se desconecto")
+  });
+});
+
+//puerto serial
+var mySerial = new SerialPort("/dev/ttyACM0",{
+    baudrate:115200,
     parser: serialport.parsers.readline("\n")
 });
 
@@ -77,4 +85,13 @@ mySerial.on("open", function () {
   console.log("puerto abierto");
 });
 
+mySerial.on("data", function (dato) {
+  console.log(dato);
+  io.sockets.emit('lectura', dato);
+  if (dato.localeCompare('Ready') != -1){
+    mySerial.write('go',function () {
+    });
+  }
+});
+//hasta aca
 module.exports = app;

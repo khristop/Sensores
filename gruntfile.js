@@ -27,6 +27,9 @@ module.exports = function (grunt) {
                     'public/javascripts/scripts.js':[
                         'node_modules/jquery/dist/jquery.min.js',
                         'node_modules/angular/angular.js',
+                        'node_modules/chart.js/dist/Chart.js',
+                        'node_modules/angular-chart.js/dist/angular-chart.js',
+                        'node_modules/angular-timer/dist/assets/js/angular-timer-all.min.js',
                         'bootstrap/dist/js/bootstrap.min.js',
                         'resources/js/main.js']
                 }
