@@ -56,6 +56,7 @@ app.use(function(err, req, res, next) {
 });
 
 
+
 //puerto serial
 var serialport = require('serialport');
 var SerialPort = serialport;
