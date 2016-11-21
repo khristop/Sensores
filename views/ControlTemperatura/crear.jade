@@ -1,0 +1,51 @@
+extends ../base
+
+block enlaces
+    li
+        a.page-scroll(href='/inicio') inicio
+
+block content
+    section#crear
+        .container
+            .row(ng-controller="Formulario")
+                .col-lg-12
+                    .panel.panel-primary
+                        .panel-heading Formulario, para nueva prueba
+                        .panel-body
+                            span informacion de la prueba
+                            hr
+                            form.form-horizontal(name="form", ng-submit="submitForm()",novalidate)
+                                .form-group( ng-class="{'has-error' : form.titulo.$invalid && !form.titulo.$pristine }")
+                                    label.col-sm-4.control-label(for="titulo") Titulo de la prueba
+                                    div.col-sm-6
+                                        input.form-control#titulo(type="text", name="titulo", ng-model="prueba.titulo",placeholder="Prueba de materiales de hierro", required)
+                                        p.help-block( ng-show="form.titulo.$invalid && !form.titulo.$pristine") El campo titulo es requerido
+
+                                 .form-group
+                                    label.col-sm-4.control-label(for="descripcion") Descripcion de prueba
+                                    div.col-sm-6
+                                        input.form-control#descripcion(type="text",ng-model="prueba.descripcion",placeholder="Prueba ejecutada para la materia de FIR315")
+
+                                .form-group( ng-class="{'has-error' : form.carnet.$invalid && !form.carnet.$pristine }")
+                                    label.col-sm-4.control-label(for="carnet") Carnet del estudiante
+                                    div.col-sm-6
+                                        input.form-control#carnet(type="text", name="carnet",ng-model="prueba.carnet",placeholder="GS01001", required)
+                                        p.help-block( ng-show="form.carnet.$invalid && !form.carnet.$pristine") El carnet es requerido
+
+
+                                 .form-group
+                                    label.col-sm-4.control-label(for="material" required) Material a utilizar
+                                    div.col-sm-6
+                                        select.form-control#material(ng-model="prueba.material")
+
+                                 .form-group
+                                    label.col-sm-4.control-label(for="aleta" required) Aleta a usar
+                                    div.col-sm-6
+                                        select.form-control#aleta(ng-model="prueba.aleta")
+
+                        .panel-footer
+                            .row
+                                .col-lg-8
+                                .col-lg-4
+                                    button.btn.btn-lg.btn-info(type="submit", ng-disabled="form.$invalid") registrar
+

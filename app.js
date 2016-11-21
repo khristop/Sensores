@@ -12,6 +12,7 @@ var users = require('./routes/users');
 //mis rutas
 var inicio = require('./routes/inicio');
 var temperatura = require('./routes/temperatura');
+var createPrueba = require('./routes/createPrueba');
 //fin de mis rutas
 
 var app = express();
@@ -33,6 +34,7 @@ app.use('/', index);
 app.use('/users', users);
 
 //apps para aplicacicon
+app.use('/nuevaPrueba', createPrueba);
 app.use('/inicio', inicio);
 app.use('/temperatura', temperatura);
 //fin de apps

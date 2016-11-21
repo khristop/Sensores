@@ -161,3 +161,15 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
         $scope.stop();
     });
 }]);
+
+app.controller('Formulario', ['$scope', function ($scope) {
+
+    $scope.submitForm = function() {
+
+        // check to make sure the form is completely valid
+        if ($scope.userForm.$valid) {
+            alert('our form is amazing');
+        }
+
+    };
+}])

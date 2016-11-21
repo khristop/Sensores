@@ -4,48 +4,72 @@
 extends ../base
 
 block enlaces
+    li
+        a.page-scroll(href='/inicio') inicio
+    li
+        a.page-scroll(href='#prueba') prueba
 
 block content
-    .container
-        .jumbotron(ng-controller="temperatura")
-            h2 Control de Temperaturas:
 
-            hr
+    section#prueba
+        .container
             .row
-                h4 Informacion sobre la prueba
-                .col-md-4
-            hr
-            .row
-                .col-md-4
-                .col-md-4
-                    a.btn.btn-lg.btn-success(ng-click="conectar()" ng-if="pruebaEnProgreso == false") Iniciar prueba
-            hr
-            .row(ng-if="pruebaEnProgreso == true")
-                .col-md-7
-                    canvas#line.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
-                    hr
-                    h4 Tiempo de prueba:
-                    h4
-                        timer(interval="1000") {{hours}} horas{{hoursS}}, {{minutes}} minutos{{minutesS}}, {{seconds}} segundo{{secondsS}}.
-                .col-md-5(style="height: 400px;overflow-y: auto;")
-                    table.table.table-bordered.table-striped.table-responsive
-                        thead
-                            tr
-                                th Tiempo(Segundos)
-                                th Sensor 1
-                                th Sensor 2
-                        tbody
-                            tr(ng-repeat="val in capturas.lista")
-                                td {{val.tiempo}}
-                                td {{val.s1}}
-                                td {{val.s2}}
-            .row(ng-if="pruebaEnProgreso == true")
-                .col-lg-4
-                    a.btn.btn-lg.btn-danger(ng-click="desconectar()" ng-if="pruebaEnProgreso== true") Cancelar Prueba
-                .col-lg-4
-                    a.btn.btn-lg.btn-info(ng-click="finalizar()" ng-if="pruebaEnProgreso== true") Finalizar prueba
-                .col-lg-4
-                    a.btn.btn-lg.btn-warning(ng-click="reiniciar()" ng-if="pruebaEnProgreso== true") Reinicar prueba
+                .col-lg-12
+                    h2 Control de Temperaturas:
+                    .panel.panel-primary
+                        .panel-heading Informacion sobre la prueba
+                        .panel-body
+                            span informacion de la prueba
+                            .row
+                                .col-lg-12
+                                    .div(ng-controller="temperatura")
+                                        hr
+                                        .panel.panel-default
+                                            .panel-heading controlar temperatura
+                                            .panel-body#imprimir
+                                                .row
+                                                    .col-md-4
+                                                    .col-md-4
+                                                        a.btn.btn-lg.btn-success(ng-click="conectar()" ng-if="pruebaEnProgreso == false") Iniciar prueba
+                                                .row(ng-if="pruebaEnProgreso == true")
+                                                    .col-md-7
+                                                        canvas#line.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
+                                                        hr
+                                                        h4 Tiempo de prueba:
+                                                        h4
+                                                            timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
+                                                    .col-md-5(style="height: 400px;overflow-y: auto;")
+                                                        table.table.table-bordered.table-striped.table-responsive
+                                                            thead
+                                                                tr
+                                                                    th Tiempo(Segundos)
+                                                                    th Sensor 1
+                                                                    th Sensor 2
+                                                            tbody
+                                                                tr(ng-repeat="val in capturas.lista")
+                                                                    td {{val.tiempo}} s
+                                                                    td {{val.s1}} °C
+                                                                    td {{val.s2}} °C
+                                            .panel-footer
+                                                .row(ng-if="pruebaEnProgreso == true")
+                                                    .col-lg-3
+                                                        a.btn.btn-lg.btn-danger(ng-click="desconectar()" ng-if="pruebaEnProgreso== true") Cancelar Prueba
+                                                    .col-lg-3
+                                                        a.btn.btn-lg.btn-info(ng-click="finalizar()" ng-if="pruebaEnProgreso== true") Finalizar prueba
+                                                    .col-lg-3
+                                                        a.btn.btn-lg.btn-warning(ng-click="reiniciar()" ng-if="pruebaEnProgreso== true") Reinicar prueba
+                                                    .col-lg-3
+                                                        a.btn.btn-lg.btn-success(onclick="imprimir()" ng-if="pruebaEnProgreso== true") Imprimir resultado
+append script
+    script.
+        function imprimir() {
+            var printContents = document.getElementById('imprimir').innerHTML;
+            var originalContents = document.body.innerHTML;
 
+            document.body.innerHTML = printContents;
 
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
 
