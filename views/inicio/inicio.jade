@@ -4,7 +4,93 @@
 extends ../base
 
 block content
-    .container
-        .jumbotron
-            h1 App para control de temperatura
-            a.btn.btn-lg.btn-success( href="/temperatura") Ir a la aplicacion
+
+    header
+        .container
+            .intro-text
+                .col-lg-12.text-center
+                    h2.section-heading.colorblanco Aplicacion para medir temperaturas en aletas
+                    h3.section-subheading.text-muted maquina de medicion de temperaturas
+
+    section#inicio
+        .row.text-center
+            .col-md-4
+            .col-md-4
+                span.fa-stack.fa-4x
+                    i.fa.fa-circle.fa-stack-2x.text-primary
+                    i.fa.fa-laptop.fa-stack-1x.fa-inverse
+                h4.service-heading Iniciar la aplicacion
+                p.text-muted Iniciar nueva prueba
+                button.btn.btn-lg.btn-success(type='button', name='button') iniciar
+            .col-md-4
+    // Portfolio Grid Section
+    section#about.bg-light-gray
+        .container
+            .row
+                .col-lg-12.text-center
+                    h2.section-heading Acerda de
+                    h3.section-subheading.text-muted Proyecto realizado como trabajo de tesis.
+            .row
+                .col-lg-12
+                    ul.timeline
+                        li
+                            .timeline-image
+                                img.img-circle.img-responsive(src="img/about/1.jpg", alt='')
+                            .timeline-panel
+                                .timeline-heading
+                                    h4 2015
+                                    h4.subheading Planeacion
+                                .timeline-body
+                                    p.text-muted En esta etapa del proyecto se decide realizarlo.
+                        li.timeline-inverted
+                            .timeline-image
+                                img.img-circle.img-responsive(src="img/about/4.jpg", alt='')
+                            .timeline-panel
+                                .timeline-heading
+                                    h4 2016
+                                    h4.subheading Desarrollo y Ejecucion
+                                .timeline-body
+                                    p.text-muted
+                                        | El trabajo es desarollado durante todo el año y presentado como trabajo de tesis.
+    section#team
+        .container
+            .row
+                .col-lg-12.text-center
+                    h2.section-heading Equipo de trabajo
+                    h3.section-subheading.text-muted Trabajo realizado por 2 estudiantes de Ingeniera Mecanica
+            .row
+                .col-sm-4
+                    .team-member
+                        img.img-responsive.img-circle(src="img/perfil.jpg", alt='')
+                        h4 Primer Joven
+                        p.text-muted Estudiante
+                        ul.list-inline.social-buttons
+                            li
+                                a(href='#')
+                                    i.fa.fa-twitter
+                            li
+                                a(href='#')
+                                    i.fa.fa-facebook
+                            li
+                                a(href='#')
+                                    i.fa.fa-linkedin
+                .col-sm-4
+                .col-sm-4
+                    .team-member
+                        img.img-responsive.img-circle(src="img/perfil.jpg", alt='')
+                        h4 Segundo Joven
+                        p.text-muted Estudiante
+                        ul.list-inline.social-buttons
+                            li
+                                a(href='#')
+                                    i.fa.fa-twitter
+                            li
+                                a(href='#')
+                                    i.fa.fa-facebook
+                            li
+                                a(href='#')
+                                    i.fa.fa-linkedin
+            .row
+                .col-lg-8.col-lg-offset-2.text-center
+                    p.large.text-muted
+                        | Equipo de trabajo para el desarrollo del presente proyecto de tesis, a octubre del año 2016.
