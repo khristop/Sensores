@@ -32,24 +32,38 @@ block content
                                                     .col-md-4
                                                         a.btn.btn-lg.btn-success(ng-click="conectar()" ng-if="pruebaEnProgreso == false") Iniciar prueba
                                                 .row(ng-if="pruebaEnProgreso == true")
-                                                    .col-md-7
+                                                    .col-md-5
+                                                        h4 Perfil de temperatura
+                                                        canvas#line.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
+                                                        hr
+                                                        h4 Temperatura/tiempo
                                                         canvas#line.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
                                                         hr
                                                         h4 Tiempo de prueba:
                                                         h4
                                                             timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
-                                                    .col-md-5(style="height: 400px;overflow-y: auto;")
+                                                    .col-md-7(style="height: 400px;overflow-y: auto;")
                                                         table.table.table-bordered.table-striped.table-responsive
                                                             thead
                                                                 tr
                                                                     th Tiempo(Segundos)
                                                                     th Sensor 1
                                                                     th Sensor 2
+                                                                    th Sensor 3
+                                                                    th Sensor 4
+                                                                    th Sensor 5
+
+                                                                    th seleccionar
                                                             tbody
                                                                 tr(ng-repeat="val in capturas.lista")
                                                                     td {{val.tiempo}} s
                                                                     td {{val.s1}} °C
                                                                     td {{val.s2}} °C
+                                                                    td {{val.s3}} °C
+                                                                    td {{val.s4}} °C
+                                                                    td {{val.s5}} °C
+                                                                    td
+                                                                        a.btn.btn-info(ng-click="seleccionar(val)") seleccionar
                                             .panel-footer
                                                 .row(ng-if="pruebaEnProgreso == true")
                                                     .col-lg-3

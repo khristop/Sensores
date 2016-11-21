@@ -5,6 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//mongo
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/sensores');
+
+var db = mongoose.connection;
+
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -34,7 +42,7 @@ app.use('/', index);
 app.use('/users', users);
 
 //apps para aplicacicon
-app.use('/nuevaPrueba', createPrueba);
+app.use('/prueba', createPrueba);
 app.use('/inicio', inicio);
 app.use('/temperatura', temperatura);
 //fin de apps

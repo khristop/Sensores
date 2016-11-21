@@ -11,13 +11,10 @@ app.config(function (ChartJsProvider) {
 
 app.controller('temperatura', ['$scope','$interval', function ($scope, $interval) {
 
-
     $scope.momento=0;
-
     $scope.pruebaEnProgreso= false;
 
     var captura;
-
     var contador = 0;
 
     $scope.capturas={
@@ -40,18 +37,15 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
 
     //grafico
     //$scope.labels = ["0", "1", "2", "3", "4", "5", "6"];
-    $scope.series = ['Sensor 1', 'Sensor 2'];
-    /*$scope.series = ['Sensor 1', 'Sensor 2','Sensor 3','Sensor 4','Sensor 5'];
-     $scope.data = [
-     [70, 59, 80, 81, 56, 55, 30],
-     [28, 48, 40, 19, 86, 27, 90],
-     [10, 10, 10, 10, 0, 10, 10],
-     [20, 20, 20, 20, 20, 20, 20],
-     [30, 30, 30, 30, 30, 30, 30]
-     ];*/
+    $scope.series = ['Sensor 1', 'Sensor 2','Sensor 3', 'Sensor 4','Sensor 5'];
+
+    $scope.series1 = ['temperatura'];
+
     $scope.labels= [];
-    $scope.series = ['Sensor 1', 'Sensor 2'];
-    $scope.data = [[],[]];
+    $scope.labels1= ["sensor 1", "sensor 2", "sensor 3", "sensor 4", "sensor 5"];
+
+    $scope.data = [[],[],[],[],[]];
+    $scope.data1 = [];
 
     $scope.onClick = function (points, evt) {
         console.log(points, evt);
@@ -73,7 +67,10 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
                 }]
         }
     };
-
+    
+    $scope.seleccionar = function (dato) {
+        $scope.data1 = [[dato.s1, dato.s2, dato.s3, dato.s4, dato.s5]];
+    }
     //funciones para el socket
     $scope.conectar = function () {//start
         $scope.pruebaEnProgreso= true;
@@ -110,7 +107,7 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
     }
 
     function vaciar() {
-        $scope.data = [[],[]];
+        $scope.data = [[],[],[],[],[]];
         $scope.labels= [];
         $scope.capturas = {
             lista: []
@@ -136,6 +133,9 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
                 tiempo: tiempo,
                 s1: valores.s1,
                 s2: valores.s2,
+                s3: valores.s3,
+                s4: valores.s4,
+                s5: valores.s5
             };
             //parte de la tabla
             $scope.capturas.lista.push(captura);
@@ -143,11 +143,14 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
             $scope.labels.push(tiempo);
             $scope.data[0].push(valores.s1);
             $scope.data[1].push(valores.s2);
+            $scope.data[2].push(valores.s3);
+            $scope.data[3].push(valores.s4);
+            $scope.data[4].push(valores.s5);
             console.log($scope.data);
             console.log($scope.series);
             //console.log($scope.capturas);
 
-        }, 5000);
+        }, 3000);
     };
     $scope.$on('timer-tick', function (event, args) {
         $scope.momento = Math.round(args.millis / 1000);
@@ -162,14 +165,24 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
     });
 }]);
 
-app.controller('Formulario', ['$scope', function ($scope) {
+app.controller('Formulario', function ($scope, $http) {
 
-    $scope.submitForm = function() {
-
-        // check to make sure the form is completely valid
-        if ($scope.userForm.$valid) {
-            alert('our form is amazing');
+    $http({
+        method: 'POST',
+        url:'/prueba/crear',
+        params:{
+            titulo: $scope.prueba.titulo,
+            descripcion: $scope.prueba.descripcion,
+            carnet: $scope.prueba.carnet,
+            fecha: Date.now()
         }
-
-    };
-}])
+    }).success(function (data) {
+        if(data=="ok"){
+            sweetAlert("Exito", "La prueba ha sido creada", "success");
+        }else {
+            sweetAlert("error", "Error al crear la cuenta", "error");
+        }
+    }).error(function () {
+        alert('ERROR AL INTENTAR GUARDAR EL CUENTA');
+    })
+});
