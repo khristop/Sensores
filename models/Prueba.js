@@ -11,6 +11,7 @@ var PruebaSchema = moongose.Schema({
     descripcion:{type: String},
     fecha:{type:[Date]},
     carnet:{type: String},
+    realizada:{type:Boolean, default: false},
     material:[{
         material_id:{type:[moongose.Schema.Types.ObjectId]},
     }],
@@ -27,6 +28,10 @@ module.exports.createPrueba = function (prueba, callback) {
 
 module.exports.getPruebaById = function (id, callback) {
     Prueba.findById(id, callback);
+}
+
+module.exports.realizarPruebaById = function(id, callback){
+    Prueba.update({ _id: id }, { realizada: true}, {}, callback );
 }
 /*
 PruebaSchema.findById(idprueba,function(err, prueba) {

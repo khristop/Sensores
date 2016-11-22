@@ -12,37 +12,56 @@ block enlaces
 block content
 
     section#prueba
-        .container
+        .container(ng-controller="temperatura")
             .row
                 .col-lg-12
                     h2 Control de Temperaturas:
                     .panel.panel-primary
                         .panel-heading Informacion sobre la prueba
                         .panel-body
-                            span informacion de la prueba
                             .row
-                                .col-lg-12
-                                    .div(ng-controller="temperatura")
-                                        hr
-                                        .panel.panel-default
-                                            .panel-heading controlar temperatura
-                                            .panel-body#imprimir
-                                                .row
-                                                    .col-md-4
-                                                    .col-md-4
-                                                        a.btn.btn-lg.btn-success(ng-click="conectar()" ng-if="pruebaEnProgreso == false") Iniciar prueba
-                                                .row(ng-if="pruebaEnProgreso == true")
-                                                    .col-md-5
-                                                        h4 Perfil de temperatura
-                                                        canvas#line.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
-                                                        hr
-                                                        h4 Temperatura/tiempo
-                                                        canvas#line.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
-                                                        hr
-                                                        h4 Tiempo de prueba:
-                                                        h4
-                                                            timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
-                                                    .col-md-7(style="height: 400px;overflow-y: auto;")
+                                .col-md-12
+                                    .panel.panel-info
+                                        .panel-heading informacion de la prueba
+                                        .panel-body
+                                            .row
+                                                .col-md-6
+                                                    h4 Id de prueba: #{p._id}
+                                                    h4 Titulo: #{p.titulo}
+                                                    h4 Carnet de estudiante: #{p.carnet}
+                                                    h4 Descripcion: #{p.descripcion}
+                                                .col-md-6
+                                                    h4 Fecha de creacion #{p.fecha }
+                                                    h4 aletas:
+                                                    h4 materiales:
+                                                    h4 estado:
+                                                        span(ng-if="p.realizada") realizada
+                                                        span(ng-if="!p.realizada") sin realizar
+
+                            .row
+                                .col-md-12
+                                    hr
+                                    .panel.panel-default
+                                        .panel-heading temperaturas
+                                        .panel-body#imprimir
+                                            .row
+                                                .col-md-4
+                                                .col-md-4
+                                                    a.btn.btn-lg.btn-success(ng-click="conectar()" ng-if="pruebaEnProgreso == false") Iniciar prueba
+                                            .row(ng-if="pruebaEnProgreso == true")
+                                                .col-md-5(style="height: 700px")
+                                                    h4 Perfil de temperatura
+                                                    canvas#line.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
+                                                    hr
+                                                    h4 Temperatura/tiempo
+                                                    canvas#line.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', <='', canvas = '')
+                                                    hr
+                                                    h4 Tiempo de prueba:
+                                                    h4
+                                                        timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
+                                                .col-md-7
+                                                    h4 Tabla de valores
+                                                    div(style="height: 650px;overflow-y: auto;")
                                                         table.table.table-bordered.table-striped.table-responsive
                                                             thead
                                                                 tr
@@ -52,8 +71,7 @@ block content
                                                                     th Sensor 3
                                                                     th Sensor 4
                                                                     th Sensor 5
-
-                                                                    th seleccionar
+                                                                    th accion
                                                             tbody
                                                                 tr(ng-repeat="val in capturas.lista")
                                                                     td {{val.tiempo}} s
@@ -64,16 +82,16 @@ block content
                                                                     td {{val.s5}} °C
                                                                     td
                                                                         a.btn.btn-info(ng-click="seleccionar(val)") seleccionar
-                                            .panel-footer
-                                                .row(ng-if="pruebaEnProgreso == true")
-                                                    .col-lg-3
-                                                        a.btn.btn-lg.btn-danger(ng-click="desconectar()" ng-if="pruebaEnProgreso== true") Cancelar Prueba
-                                                    .col-lg-3
-                                                        a.btn.btn-lg.btn-info(ng-click="finalizar()" ng-if="pruebaEnProgreso== true") Finalizar prueba
-                                                    .col-lg-3
-                                                        a.btn.btn-lg.btn-warning(ng-click="reiniciar()" ng-if="pruebaEnProgreso== true") Reinicar prueba
-                                                    .col-lg-3
-                                                        a.btn.btn-lg.btn-success(onclick="imprimir()" ng-if="pruebaEnProgreso== true") Imprimir resultado
+                                        .panel-footer
+                                            .row(ng-if="pruebaEnProgreso == true")
+                                                .col-lg-3
+                                                    a.btn.btn-lg.btn-danger(ng-click="desconectar()" ng-if="pruebaEnProgreso== true") Cancelar Prueba
+                                                .col-lg-3
+                                                    a.btn.btn-lg.btn-info(ng-click="finalizar()" ng-if="pruebaEnProgreso== true") Finalizar prueba
+                                                .col-lg-3
+                                                    a.btn.btn-lg.btn-warning(ng-click="reiniciar()" ng-if="pruebaEnProgreso== true") Reinicar prueba
+                                                .col-lg-3
+                                                    a.btn.btn-lg.btn-success(onclick="imprimir()" ng-if="pruebaEnProgreso== true") Imprimir resultado
 append script
     script.
         function imprimir() {

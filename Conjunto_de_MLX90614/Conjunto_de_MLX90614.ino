@@ -22,7 +22,7 @@ int device9Address = 0x04<<1;
 
 int device10Address = 0x05<<1; 
 
-int seleccion = 2;
+int seleccion = 0;
 
 //variables
 float celcius1 = 0;             // Variable que contiene la temperatura en Celcius
@@ -92,16 +92,19 @@ void loop()
         celcius4 = temperatureCelcius(device9Address);// temperatura en Celcius y
         celcius5 = temperatureCelcius(device10Address);// la guarda en las variables
       }else{
-        celcius1 = temperatureCelcius(device1Address);// Lee los datos del MLX90614
-        celcius2 = temperatureCelcius(device2Address);// con la dirección dada,
-        celcius3 = temperatureCelcius(device3Address);// los transforma en
-        celcius4 = temperatureCelcius(device4Address);// temperatura en Celcius y
-        celcius5 = temperatureCelcius(device5Address);// la guarda en las variables
-        celcius6 = temperatureCelcius(device6Address);// Lee los datos del MLX90614
-        celcius7 = temperatureCelcius(device7Address);// con la dirección dada,
-        celcius8 = temperatureCelcius(device8Address);// los transforma en
-        celcius9 = temperatureCelcius(device9Address);// temperatura en Celcius y
-        celcius10 = temperatureCelcius(device10Address);// la guarda en las variables
+        if(seleccion == 3){
+          celcius1 = temperatureCelcius(device1Address);// Lee los datos del MLX90614
+          celcius2 = temperatureCelcius(device2Address);// con la dirección dada,
+          celcius3 = temperatureCelcius(device3Address);// los transforma en
+          celcius4 = temperatureCelcius(device4Address);// temperatura en Celcius y
+          celcius5 = temperatureCelcius(device5Address);// la guarda en las variables
+          celcius6 = temperatureCelcius(device6Address);// Lee los datos del MLX90614
+          celcius7 = temperatureCelcius(device7Address);// con la dirección dada,
+          celcius8 = temperatureCelcius(device8Address);// los transforma en
+          celcius9 = temperatureCelcius(device9Address);// temperatura en Celcius y
+          celcius10 = temperatureCelcius(device10Address);// la guarda en las variables
+        }else{
+        }
       }
     }
     //segundos
@@ -113,24 +116,31 @@ void loop()
     celcius10 = temperatureCelcius(device10Address);
     */
     String message = "{ \"s1\":";
-    char valor[6];
-    dtostrf(celcius1, 6, 2, valor);
+    //char valor[6]; 
+    
+    String valor = "";
+    //dtostrf(celcius1, 6, 2, valor);
+    valor = "10.00";
     message += valor;
     
     message += ", \"s2\":";
-    dtostrf(celcius2, 6, 2, valor);
+    //dtostrf(celcius2, 6, 2, valor);
+    valor = "15.00";
     message += valor;
     
     message += ", \"s3\":";
-    dtostrf(celcius3, 6, 2, valor);
+    //dtostrf(celcius3, 6, 2, valor);
+    valor = "20.00";
     message += valor;
     
     message += ", \"s4\":";
-    dtostrf(celcius4, 6, 2, valor);
+    //dtostrf(celcius4, 6, 2, valor);
+    valor = "25.00";
     message += valor;
     
     message += ", \"s5\":";
-    dtostrf(celcius5, 6, 2, valor);
+    //dtostrf(celcius5, 6, 2, valor);
+    valor = "30.00";
     message += valor;
     
     message += "}";
@@ -138,7 +148,7 @@ void loop()
     Serial.println(message);
     
   }
-  delay(2000);                         // Espera un segundo para imprimir de nuevo.
+  delay(1000);                         // Espera un segundo para imprimir de nuevo.
 }
 
 float temperatureCelcius(int address) {

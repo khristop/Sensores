@@ -20,7 +20,7 @@ var users = require('./routes/users');
 //mis rutas
 var inicio = require('./routes/inicio');
 var temperatura = require('./routes/temperatura');
-var createPrueba = require('./routes/createPrueba');
+var prueba = require('./routes/prueba');
 //fin de mis rutas
 
 var app = express();
@@ -42,7 +42,7 @@ app.use('/', index);
 app.use('/users', users);
 
 //apps para aplicacicon
-app.use('/prueba', createPrueba);
+app.use('/prueba', prueba);
 app.use('/inicio', inicio);
 app.use('/temperatura', temperatura);
 //fin de apps

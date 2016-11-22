@@ -39,7 +39,7 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
     //$scope.labels = ["0", "1", "2", "3", "4", "5", "6"];
     $scope.series = ['Sensor 1', 'Sensor 2','Sensor 3', 'Sensor 4','Sensor 5'];
 
-    $scope.series1 = ['temperatura'];
+    $scope.series1 = ['temperaturas'];
 
     $scope.labels= [];
     $scope.labels1= ["sensor 1", "sensor 2", "sensor 3", "sensor 4", "sensor 5"];
@@ -69,6 +69,7 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
     };
     
     $scope.seleccionar = function (dato) {
+        $scope.series1 = ['temperaturas en: '+dato.tiempo+' segundos'];
         $scope.data1 = [[dato.s1, dato.s2, dato.s3, dato.s4, dato.s5]];
     }
     //funciones para el socket
@@ -146,6 +147,8 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
             $scope.data[2].push(valores.s3);
             $scope.data[3].push(valores.s4);
             $scope.data[4].push(valores.s5);
+            $scope.series1 = ['temperaturas en: '+tiempo+' segundos'];
+            $scope.data1 = [[valores.s1, valores.s2, valores.s3, valores.s4, valores.s5]];
             console.log($scope.data);
             console.log($scope.series);
             //console.log($scope.capturas);
@@ -165,24 +168,39 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
     });
 }]);
 
-app.controller('Formulario', function ($scope, $http) {
+app.controller('Formulario', function ($scope, $http, $window) {
 
-    $http({
-        method: 'POST',
-        url:'/prueba/crear',
-        params:{
-            titulo: $scope.prueba.titulo,
-            descripcion: $scope.prueba.descripcion,
-            carnet: $scope.prueba.carnet,
-            fecha: Date.now()
-        }
-    }).success(function (data) {
-        if(data=="ok"){
-            sweetAlert("Exito", "La prueba ha sido creada", "success");
-        }else {
-            sweetAlert("error", "Error al crear la cuenta", "error");
-        }
-    }).error(function () {
-        alert('ERROR AL INTENTAR GUARDAR EL CUENTA');
-    })
+    $scope.guardarPrueba = function () {
+        $http({
+            method: 'POST',
+            url:'/prueba/crear',
+            params:{
+                titulo: $scope.prueba.titulo,
+                descripcion: $scope.prueba.descripcion,
+                carnet: $scope.prueba.carnet,
+                fecha: Date.now()
+            }
+        }).success(function (data) {
+            if(data.status=="ok"){
+
+                swal({
+                    title: "Creada con exito",
+                    text: "La prueba iniciara en breve",
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#1ECB42",
+                    confirmButtonText: "Ir a la prueba",
+                    closeOnConfirm: false
+                    },
+                    function(isConfirm){
+                        $window.location.href = '/prueba/'+data.id;
+                });
+                console.log(data.id)
+            }else{
+                sweetAlert("error", "Error al crear la cuenta", "error");
+            }
+        }).error(function () {
+            alert('ERROR AL INTENTAR GUARDAR EL CUENTA');
+        })
+    }
 });

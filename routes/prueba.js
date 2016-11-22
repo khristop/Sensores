@@ -9,7 +9,9 @@ var router = express.Router();
 var Prueba = require('../models/Prueba');
 
 /* GET home page. */
-router.get('/', function(req, res) {
+
+
+router.get('/crear', function(req, res) {
     res.render('ControlTemperatura/crear', { title: 'Formulario de pruebas' });
 });
 
@@ -34,10 +36,28 @@ router.post('/crear', function (req, res) {
     });
 
     Prueba.createPrueba(nuevaPrueba, function (err, prueba) {
-        if (err) throw err;
-        console.log(prueba);
-    })
+        if (err) {throw err}
+        else {
+            console.log(prueba)
+            res.send({
+                status: "ok",
+                id: prueba._id
+            });
+        };
+    });
+});
 
-})
+router.get('/:idp', function(req, res) {
+    var pruebaid = req.params.idp;
+    Prueba.getPruebaById(pruebaid, function (err, prueba) {
+        if(err){
+            res.send("Error 404, prueba no encontrada");
+        }else {
+            console.log(prueba);
+            res.render('ControlTemperatura/leer', { title: 'Formulario de pruebas', p:prueba});
+        }
+    });
+
+});
 
 module.exports = router;
