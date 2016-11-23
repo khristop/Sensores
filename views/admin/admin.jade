@@ -1,0 +1,171 @@
+
+extends ../base
+
+block enlaces
+    li
+        a.page-scroll(href='/inicio') inicio
+append head
+    style.
+        footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+block content
+    section(ng-controller="Admininstracion", data-ng-init="init()")
+        .container
+            .row
+                .col-lg-12
+                    .panel.panel-primary
+                        .panel-heading Administracion de la aplicacion
+                        .panel-body
+                            .row
+                                .col-md-6
+                                    .panel.panel-primary
+                                        .panel-heading Materiales
+                                        .panel-body
+                                            .row
+                                                .col-md-8
+                                                    h4 Agregar un material nuevo
+                                                .col-md-4
+                                                    a.btn.btn-success(href="#modal-amaterial", data-toggle='modal') Nuevo
+                                            hr
+                                            .row
+                                                table.table.table-striped.table-responsive
+                                                    thead
+                                                        tr
+                                                            th nombre
+                                                            th descripcion
+                                                            th acciones
+                                                    tbody
+                                                        tr(ng-repeat="mat in materiales")
+                                                            td {{mat.nombre}}
+                                                            td {{mat.descripcion}}
+                                                            td
+                                                                .btn-group(role="group")
+                                                                    a.btn.btn-info(data-toggle="modal", href="#modal-mmaterial", ng-click="recuperarMaterial(mat._id)" ) actualizar
+                                                                    a.btn.btn-danger(ng-click="eliminarMaterial(mat._id)") eliminar
+                                .col-md-6
+                                    .panel.panel-primary
+                                        .panel-heading Aletas
+                                        .panel-body
+                                            .row
+                                                .col-md-8
+                                                    h4 Agregar un nuevo tipo de Aletas
+                                                .col-md-4
+                                                    a.btn.btn-success(href="#modal-naleta", data-toggle='modal')
+                                                        span.glyphicon.glyphicon-plus
+                                            hr
+                                            .row
+                                                table.table.table-striped.table-responsive
+                                                    thead
+                                                        tr
+                                                            th forma
+                                                            th descripcion
+                                                            th es conjunto
+                                                            th acciones
+                                                    tbody
+                                                        tr(ng-repeat="fo in formas")
+                                                            td {{fo.forma}}
+                                                            td {{fo.descripcion}}
+                                                            td
+                                                                span.glyphicon.glyphicon-ok(ng-if="fo.conjunto")
+                                                                span.glyphicon.glyphicon-remove(ng-if="!fo.conjunto")
+
+                                                            td
+                                                                .btn-group(role="group")
+                                                                    a.btn.btn-info(data-toggle="modal", href="#modal-maleta", ng-click="recuperarAleta()" )
+                                                                        span.glyphicon.glyphicon-pencil
+                                                                    a.btn.btn-danger(ng-click="eliminarAleta()")
+                                                                        spna.glyphicon.glyphicon-remove
+                            .row
+                                .col-md-6
+                                    .panel.panel-primary
+                                        .panel-heading Intervalo de tiempo
+                                        .panel-body
+                                            h4 tiempo
+        .modal.fade#modal-amaterial
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        .buttonasd( type="button", class="close", data-dismiss="modal", aria-hidden="true") &times
+                        h4.modal-title.titulo Registro de Materiales
+                        .modal-body
+                            form( name ="nuevomat",ng-submit="submitForm()", novalidate )
+                                .form-group( ng-class="{'has-error' : nuevomat.nombre.$invalid && !nuevomat.nombre.$pristine }")
+                                    label.control-label(for='nombre') Nombre
+                                    div
+                                        input.form-control#nombre(name='nombre', ng-model='nombre', type='text', placeholder='Ingrese el nombre' required )
+                                        p.help-block( ng-show="nuevomat.nombre.$invalid && !nuevomat.nombre.$pristine") El campo nombre es requerido
+                                .form-group
+                                    label.enc-tablas Descripción
+                                    textarea.form-control(name='descripcion', ng-model='descripcion', rows='3', type='text', placeholder='descripcion' required )
+                                button.btn.btn-success( type="submit", ng-click="guardarMaterial()", ng-disabled="nuevomat.$invalid") registrar material
+
+
+
+        .modal.fade#modal-mmaterial
+                    .modal-dialog
+                        .modal-content
+                            .modal-header
+                                .buttonasd( type="button", class="close", data-dismiss="modal", aria-hidden="true") &times
+                                h4.modal-title.titulo Registro de Materiales
+                                .modal-body
+                                    form( name ="modmat",ng-submit="submitForm()", novalidate )
+                                        .form-group( ng-class="{'has-error' : modmat.mnombre.$invalid && !modmat.mnombre.$pristine }")
+                                            label.control-label(for='mnombre') Nombre
+                                            div
+                                                input.form-control#mnombre(name='mnombre', ng-model='mnombre', type='text', placeholder='Ingrese el nombre' required )
+                                                p.help-block( ng-show="nuevomat.mnombre.$invalid && !nuevomat.mnombre.$pristine") El campo nombre es requerido
+                                        .form-group
+                                            label.enc-tablas Descripción
+                                            textarea.form-control(name='mdescripcion', ng-model='mdescripcion', rows='3', type='text', placeholder='descripcion' required )
+                                        button.btn.btn-success( type="submit", ng-click="actualizarMaterial()", ng-disabled="modmat.$invalid") guardar material
+        .modal.fade#modal-naleta
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        .buttonasd( type="button", class="close", data-dismiss="modal", aria-hidden="true") &times
+                        h4.modal-title.titulo Registro de Aletas
+                        .modal-body
+                            form( name ="naleta",ng-submit="submitForm()", novalidate )
+                                .form-group( ng-class="{'has-error' : naleta.nforma.$invalid && !naleta.nforma.$pristine }")
+                                    label.control-label(for='nforma') Forma
+                                    div
+                                        input.form-control#nforma(name='nforma', ng-model='nforma', type='text', placeholder='Ingrese la forma' required )
+                                        p.help-block( ng-show="naleta.nforma.$invalid && !naleta.nforma.$pristine") El campo forma es requerido
+                                .form-group
+                                    label.enc-tablas Descripción
+                                    textarea.form-control(name='ndesaleta', ng-model='ndesaleta', rows='3', type='text', placeholder='descripcion' required )
+                                .form-group
+                                    label.enc-tablas Conjunto
+                                    input.form-control( type="checkbox" ,name='nconjunto', ng-model='nconjunto' )
+                                button.btn.btn-success( type="submit", ng-click="guardarAleta()", ng-disabled="naleta.$invalid") registrar material
+
+
+
+        .modal.fade#modal-maleta
+                    .modal-dialog
+                        .modal-content
+                            .modal-header
+                                .buttonasd( type="button", class="close", data-dismiss="modal", aria-hidden="true") &times
+                                h4.modal-title.titulo Registro de Aletas
+                                .modal-body
+                                    form( name ="maleta",ng-submit="submitForm()", novalidate )
+                                        .form-group( ng-class="{'has-error' : maleta.mforma.$invalid && !maleta.mforma.$pristine }")
+                                            label.control-label(for='mforma') Forma
+                                            div
+                                                input.form-control#mforma(name='mforma', ng-model='mforma', type='text', placeholder='Ingrese la forma' required )
+                                                p.help-block( ng-show="maleta.mforma.$invalid && !maleta.mforma.$pristine") El campo forma es requerido
+                                        .form-group
+                                            label.enc-tablas Descripción
+                                            textarea.form-control(name='mdesaleta', ng-model='mdesaleta', rows='3', type='text', placeholder='descripcion' required )
+                                        .form-group
+                                            label.enc-tablas Conjunto
+                                            input.form-control( type="checkbox" ,name='mconjunto', ng-model='mconjunto' )
+                                        button.btn.btn-success( type="submit", ng-click="modificarAleta()", ng-disabled="maleta.$invalid") registrar material
+
+
+

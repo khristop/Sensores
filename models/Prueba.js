@@ -13,10 +13,10 @@ var PruebaSchema = moongose.Schema({
     carnet:{type: String},
     realizada:{type:Boolean, default: false},
     material:[{
-        material_id:{type:[moongose.Schema.Types.ObjectId]},
+        material_id:{type:moongose.Schema.Types.ObjectId, ref:'Material'},
     }],
     aleta:[{
-        aleta_id:{type:[moongose.Schema.Types.ObjectId]},
+        aleta_id:{type:moongose.Schema.Types.ObjectId, ref:'Aleta'},
     }]
 });
 
@@ -33,8 +33,3 @@ module.exports.getPruebaById = function (id, callback) {
 module.exports.realizarPruebaById = function(id, callback){
     Prueba.update({ _id: id }, { realizada: true}, {}, callback );
 }
-/*
-PruebaSchema.findById(idprueba,function(err, prueba) {
-    if(err) throw err;
-    console.log(prueba);
-});*/

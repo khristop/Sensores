@@ -1,0 +1,40 @@
+//
+   Created by khris on 11-23-16.
+extends base
+
+block enlaces
+    li
+        a.page-scroll(href='/inicio') inicio
+
+block title
+    title No encontrado
+
+append head
+    link(rel='stylesheet', href='/stylesheets/error.css')
+    link(href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,200italic,200,300,300italic,400italic,600,600italic,700,700italic,900,900italic', rel='stylesheet', type='text/css')
+    // For-Mobile-Apps-and-Meta-Tags
+    script(type='application/x-javascript').
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false); function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+
+block content
+    .main.w3l
+        h2 OOPS
+        h1  ERROR 404
+        h3 "Perdon ! pero la pagina que estas buscando no se encuentra"
+        a.back(href='/inicio') Ir al inicio
+        .social-icons.w3
+            ul
+                li
+                    a.twitter(href='#')
+                li
+                    a.facebook(href='#')
+                li
+                    a.pinterest(href='#')
+        .footer.agileits
+            p Copyright © 2016 Simple Error Page. All Rights Reserved | Design by
+                a(href='http://w3layouts.com', target='_blank') W3layouts
+

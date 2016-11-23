@@ -51,7 +51,7 @@ router.get('/:idp', function(req, res) {
     var pruebaid = req.params.idp;
     Prueba.getPruebaById(pruebaid, function (err, prueba) {
         if(err){
-            res.send("Error 404, prueba no encontrada");
+            res.render("error404", {});
         }else {
             console.log(prueba);
             res.render('ControlTemperatura/leer', { title: 'Formulario de pruebas', p:prueba});

@@ -204,3 +204,129 @@ app.controller('Formulario', function ($scope, $http, $window) {
         })
     }
 });
+
+app.controller('Admininstracion', function ($scope, $http, $window) {
+    
+    $scope.init = function () {
+        $scope.obtener();
+
+    }
+
+    $scope.idupdatematerial= 0;
+
+    $scope.materiales = {};
+    
+    $scope.formas = {};
+    
+    $scope.obtener = function () {
+        $http({
+            method: 'GET',
+            url: '/admin/catalogo'
+        }).success(function (data) {
+            if(typeof(data)=='object'){
+                $scope.materiales = data.materiales;
+                $scope.formas = data.formas;
+            }
+        })
+    }
+
+    $scope.guardarMaterial = function () {
+
+        $http({
+            method: 'POST',
+            url: '/admin/material/nuevo',
+            params: {
+                nombre: $scope.nombre,
+                descripcion: $scope.descripcion
+            }
+        }).success(function (data) {
+            if(data.status == 'ok'){
+                sweetAlert("Buen trabajo!", "El material ha sido guardada", "success");
+                $scope.obtener();
+            }else{
+                sweetAlert("error", "Error al crear el material", "error");
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR GUARDAR EL MATERIAL');
+        });
+    }
+
+    $scope.recuperarMaterial = function (idm) {
+        $http({
+            method: 'GET',
+            url: '/admin/material/'+idm
+        }).success(function(data){
+            console.log(data);
+            if(data.status == 'ok'){
+                $scope.mnombre = data.material.nombre;
+                $scope.mdescripcion = data.material.descripcion;
+                $scope.idupdatematerial = data.material._id;
+            }else{
+                alert('ERROR AL INTENTAR MATERIAL');
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR RECUPERAR MATERIAL');
+        });
+
+    }
+    
+    $scope.actualizarMaterial = function () {
+        console.log($scope.idupdatematerial);
+        $http({
+            method: 'POST',
+            url: '/admin/material/actualizar',
+
+            params: {
+                idmaterial: $scope.idupdatematerial,
+                nombre: $scope.mnombre,
+                descripcion: $scope.mdescripcion
+            }
+        }).success(function(data){
+            if(data.status == 'ok'){
+                sweetAlert("Buen trabajo!", "El material ha sido modificada", "success");
+                $scope.obtener();
+                $('.modal').modal('hide');
+            }else{
+                sweetAlert("error", "Error al modificar el material", "error");
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR GUARDAR EL MATERIAL');
+        });
+
+    }
+
+    $scope.eliminarMaterial = function (idm) {
+        $http({
+            method: 'DELETE',
+            url: '/admin/material/'+idm,
+        }).success(function(data){
+            if(data.status == 'ok'){
+                sweetAlert("Buen trabajo!", "El material ha sido eliminado", "success");
+                $scope.obtener();
+            }else{
+                sweetAlert("error", "Error al eliminar el material", "error");
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR ELIMINARS EL MATERIAL');
+        });
+    }
+
+    $scope.guardarAleta = function () {
+
+        forma = $scope.nforma;
+        descrip = $scope.ndesaleta;
+        estado = $scope.nconjunto;
+        console.log("estado")
+
+    }
+
+    $scope.recuperarAleta = function () {
+        $scope.mforma = "forma1";
+        $scope.mdesaleta = "desaleta1";
+        $scope.mconjunto = true;
+    }
+
+    $scope.eliminarAleta = function (idm) {
+
+    }
+});
