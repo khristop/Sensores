@@ -16,7 +16,7 @@ append head
 block content
     section#crear
         .container
-            .row(ng-controller="Formulario")
+            .row(ng-controller="Formulario", data-ng-init="obtener()")
                 .col-lg-12
                     .panel.panel-primary
                         .panel-heading Formulario, para nueva prueba
@@ -45,12 +45,14 @@ block content
                                  .form-group
                                     label.col-sm-4.control-label(for="material" required) Material a utilizar
                                     div.col-sm-6
-                                        select.form-control#material(ng-model="prueba.material")
+                                        select.form-control#material(name="material",ng-model="prueba.material" required)
+                                            option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
 
                                  .form-group
                                     label.col-sm-4.control-label(for="aleta" required) Aleta a usar
                                     div.col-sm-6
-                                        select.form-control#aleta(ng-model="prueba.aleta")
+                                        select.form-control#aleta(name="aleta",ng-model="prueba.aleta" required)
+                                            option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
 
                         .panel-footer
                             .row

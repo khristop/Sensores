@@ -170,6 +170,21 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
 
 app.controller('Formulario', function ($scope, $http, $window) {
 
+    $scope.materiales = {};
+    $scope.formas = {};
+
+    $scope.obtener = function () {
+        $http({
+            method: 'GET',
+            url: '/admin/catalogo'
+        }).success(function (data) {
+            if(typeof(data)=='object'){
+                $scope.materiales = data.materiales;
+                $scope.formas = data.formas;
+            }
+        })
+    }
+
     $scope.guardarPrueba = function () {
         $http({
             method: 'POST',
