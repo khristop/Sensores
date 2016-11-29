@@ -10,3 +10,16 @@ var ConfiguracionSchema = moongose.Schema({
 });
 
 var Configuracion = module.exports=moongose.model('Configuracion', ConfiguracionSchema);
+
+module.exports.setTiempo = function (tiempo, id, callback) {
+    var condicion = { _id : id };
+    var update = { $set: {
+        tiempo: tiempo
+    }};
+    var opciones = { upsert: true };
+    Configuracion.update( condicion, update, opciones, callback);
+}
+
+module.exports.getTiempo = function (callback) {
+    Configuracion.find(callback);
+}

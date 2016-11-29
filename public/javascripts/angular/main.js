@@ -9,7 +9,7 @@ app.config(function (ChartJsProvider) {
     });
 });
 
-app.controller('temperatura', ['$scope','$interval', function ($scope, $interval) {
+app.controller('temperatura', ['$scope','$interval','$http', function ($scope, $interval, $http) {
 
     $scope.momento=0;
     $scope.pruebaEnProgreso= false;
@@ -22,7 +22,17 @@ app.controller('temperatura', ['$scope','$interval', function ($scope, $interval
     };
 
     // timer:
-
+    
+    $scope.obtener = function (id) {
+        $http({
+            method: 'GET',
+            url: '/prueba/obtener/'+id
+        }).success(function (data) {
+            if(typeof(data)=='object'){
+                $scope.prueba= data.p;
+            }
+        })
+    }
     $scope.timerRunning = true;
 
     $scope.startTimer = function () {
@@ -173,6 +183,16 @@ app.controller('Formulario', function ($scope, $http, $window) {
     $scope.materiales = {};
     $scope.formas = {};
 
+    $scope.conjunto = false;
+
+    $scope.aleta2 = function () {
+        $scope.conjunto = !$scope.conjunto;
+        if(!$scope.conjunto){
+            delete $scope.prueba.material2;
+            delete $scope.prueba.aleta2;
+        }
+    }
+
     $scope.obtener = function () {
         $http({
             method: 'GET',
@@ -186,16 +206,39 @@ app.controller('Formulario', function ($scope, $http, $window) {
     }
 
     $scope.guardarPrueba = function () {
-        $http({
-            method: 'POST',
-            url:'/prueba/crear',
-            params:{
-                titulo: $scope.prueba.titulo,
-                descripcion: $scope.prueba.descripcion,
-                carnet: $scope.prueba.carnet,
-                fecha: Date.now()
-            }
-        }).success(function (data) {
+        if($scope.conjunto) {
+            var peticion = $http({
+                method: 'POST',
+                url:'/prueba/crear',
+                params:{
+                    conjunto: $scope.conjunto,
+                    titulo: $scope.prueba.titulo,
+                    descripcion: $scope.prueba.descripcion,
+                    carnet: $scope.prueba.carnet,
+                    fecha: Date.now(),
+                    material1: $scope.prueba.material1,
+                    material2: $scope.prueba.material2,
+                    aleta1: $scope.prueba.aleta1,
+                    aleta2: $scope.prueba.aleta2
+                }
+            });
+        }else{
+            var peticion = $http({
+                method: 'POST',
+                url:'/prueba/crear',
+                params:{
+                    conjunto: $scope.conjunto,
+                    titulo: $scope.prueba.titulo,
+                    descripcion: $scope.prueba.descripcion,
+                    carnet: $scope.prueba.carnet,
+                    fecha: Date.now(),
+                    material1: $scope.prueba.material1,
+                    aleta1: $scope.prueba.aleta1
+                }
+            });
+        }
+
+        peticion.success(function (data) {
             if(data.status=="ok"){
 
                 swal({
@@ -228,11 +271,12 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
     }
 
     $scope.idupdatematerial= 0;
+    $scope.idupdatealeta= 0;
 
     $scope.materiales = {};
     
     $scope.formas = {};
-    
+
     $scope.obtener = function () {
         $http({
             method: 'GET',
@@ -244,6 +288,8 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
             }
         })
     }
+
+    //material
 
     $scope.guardarMaterial = function () {
 
@@ -326,22 +372,87 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
         });
     }
 
+    //aletas
+
     $scope.guardarAleta = function () {
 
-        forma = $scope.nforma;
-        descrip = $scope.ndesaleta;
-        estado = $scope.nconjunto;
-        console.log("estado")
+        $http({
+            method: 'POST',
+            url: '/admin/aleta/nuevo',
+            params: {
+                forma: $scope.nforma,
+                descripcion: $scope.ndesaleta
+            }
+        }).success(function (data) {
+            if(data.status == 'ok'){
+                sweetAlert("Buen trabajo!", "La aleta ha sido registrada", "success");
+                $scope.obtener();
+                $('.modal').modal('hide');
+            }else{
+                sweetAlert("error", "Error al crear la aleta", "error");
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR GUARDAR LA ALETA');
+        });
+    }
+
+    $scope.actualizarAleta = function () {
+        $http({
+            method: 'POST',
+            url: '/admin/aleta/actualizar',
+
+            params: {
+                ida: $scope.idupdatealeta,
+                forma: $scope.mforma,
+                descripcion : $scope.mdesaleta
+            }
+        }).success(function(data){
+            if(data.status == 'ok'){
+                sweetAlert("Buen trabajo!", "La aleta ha sido modificada", "success");
+                $scope.obtener();
+                $('.modal').modal('hide');
+            }else{
+                sweetAlert("error", "Error al modificar la aleta", "error");
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR GUARDAR LA ALETA');
+        });
 
     }
 
-    $scope.recuperarAleta = function () {
-        $scope.mforma = "forma1";
-        $scope.mdesaleta = "desaleta1";
-        $scope.mconjunto = true;
+    $scope.recuperarAleta = function (ida) {
+        $http({
+            method: 'GET',
+            url: '/admin/aleta/'+ida
+        }).success(function(data){
+            console.log(data);
+            if(data.status == 'ok'){
+                $scope.mforma = data.aleta.forma;
+                $scope.mdesaleta= data.aleta.descripcion;
+                $scope.idupdatealeta = data.aleta._id;
+            }else{
+                alert('ERROR AL INTENTAR ALETA');
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR RECUPERAR ALETA');
+        });
+
+
     }
 
-    $scope.eliminarAleta = function (idm) {
-
+    $scope.eliminarAleta = function (ida) {
+        $http({
+            method: 'DELETE',
+            url: '/admin/aleta/'+ida,
+        }).success(function(data){
+            if(data.status == 'ok'){
+                sweetAlert("Buen trabajo!", "La aleta ha sido eliminado", "success");
+                $scope.obtener();
+            }else{
+                sweetAlert("error", "Error al eliminar la aleta", "error");
+            }
+        }).error(function(){
+            alert('ERROR AL INTENTAR ELIMINAR LA ALETA');
+        });
     }
 });

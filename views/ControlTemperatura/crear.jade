@@ -19,40 +19,72 @@ block content
             .row(ng-controller="Formulario", data-ng-init="obtener()")
                 .col-lg-12
                     .panel.panel-primary
-                        .panel-heading Formulario, para nueva prueba
+                        .panel-heading Formulario para nueva prueba
                         .panel-body
-                            span informacion de la prueba
+                            h4 Informacion de la prueba
                             hr
                             form.form-horizontal(name="form", ng-submit="submitForm()",novalidate)
-                                .form-group( ng-class="{'has-error' : form.titulo.$invalid && !form.titulo.$pristine }")
-                                    label.col-sm-4.control-label(for="titulo") Titulo de la prueba
-                                    div.col-sm-6
-                                        input.form-control#titulo(type="text", name="titulo", ng-model="prueba.titulo",placeholder="Prueba de materiales de hierro", required)
-                                        p.help-block( ng-show="form.titulo.$invalid && !form.titulo.$pristine") El campo titulo es requerido
+                                .row
+                                    .col-md-6
+                                        h5.text-center Informacion General
+                                        br
+                                        .form-group( ng-class="{'has-error' : form.titulo.$invalid && !form.titulo.$pristine }")
+                                            label.col-sm-4.control-label(for="titulo") Titulo de la prueba
+                                            div.col-sm-6
+                                                input.form-control#titulo(type="text", name="titulo", ng-model="prueba.titulo",placeholder="Prueba de materiales de hierro", required)
+                                                p.help-block( ng-show="form.titulo.$invalid && !form.titulo.$pristine") El campo titulo es requerido
 
-                                 .form-group
-                                    label.col-sm-4.control-label(for="descripcion") Descripcion de prueba
-                                    div.col-sm-6
-                                        input.form-control#descripcion(type="text",ng-model="prueba.descripcion",placeholder="Prueba ejecutada para la materia de FIR315")
+                                        .form-group
+                                            label.col-sm-4.control-label(for="descripcion") Descripcion de prueba
+                                            div.col-sm-6
+                                                textarea.form-control#descripcion(rows="4",ng-model="prueba.descripcion",placeholder="Prueba ejecutada para la materia de FIR315")
 
-                                .form-group( ng-class="{'has-error' : form.carnet.$invalid && !form.carnet.$pristine }")
-                                    label.col-sm-4.control-label(for="carnet") Carnet del estudiante
-                                    div.col-sm-6
-                                        input.form-control#carnet(type="text", name="carnet",ng-model="prueba.carnet",placeholder="GS01001", required)
-                                        p.help-block( ng-show="form.carnet.$invalid && !form.carnet.$pristine") El carnet es requerido
+                                        .form-group( ng-class="{'has-error' : form.carnet.$invalid && !form.carnet.$pristine }")
+                                            label.col-sm-4.control-label(for="carnet") Carnet del estudiante
+                                            div.col-sm-6
+                                                input.form-control#carnet(type="text", name="carnet",ng-model="prueba.carnet",placeholder="GS01001", required)
+                                                p.help-block( ng-show="form.carnet.$invalid && !form.carnet.$pristine") El carnet es requerido
+                                    .col-md-6
+                                        h5.text-center Aletas y materiales
+                                        .row
+                                            .col-md-12
+                                                h6 Aleta 1
+                                                .form-group
+                                                    label.col-sm-4.control-label(for="material" required) Material a utilizar
+                                                    .col-sm-6
+                                                        select.form-control#material(name="material",ng-model="prueba.material1" required)
+                                                            option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
 
+                                                .form-group
+                                                    label.col-sm-4.control-label(for="aleta" required) Aleta a usar
+                                                    .col-sm-6
+                                                        select.form-control#aleta(name="aleta",ng-model="prueba.aleta1" required)
+                                                            option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
 
-                                 .form-group
-                                    label.col-sm-4.control-label(for="material" required) Material a utilizar
-                                    div.col-sm-6
-                                        select.form-control#material(name="material",ng-model="prueba.material" required)
-                                            option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
+                                            .col-md-12(ng-if="conjunto")
+                                                h6 Aleta 2
+                                                .form-group
+                                                    label.col-sm-4.control-label(for="material2") Material a utilizar
+                                                    .col-sm-6
+                                                        select.form-control#material2(name="material2",ng-model="prueba.material2" required)
+                                                            option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
 
-                                 .form-group
-                                    label.col-sm-4.control-label(for="aleta" required) Aleta a usar
-                                    div.col-sm-6
-                                        select.form-control#aleta(name="aleta",ng-model="prueba.aleta" required)
-                                            option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
+                                                .form-group
+                                                    label.col-sm-4.control-label(for="aleta2") Aleta a usar
+                                                    .col-sm-6
+                                                        select.form-control#aleta2(name="aleta2",ng-model="prueba.aleta2" required)
+                                                            option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
+                                                .text-center
+                                                    a.btn.btn-sm.btn-danger( ng-click ="aleta2()")
+                                                        span.fa.fa-remove
+                                                        |  Remover aleta 2
+
+                                            .col-md-12(ng-if="!conjunto")
+                                                .text-center
+                                                    a.btn.btn-lg.btn-success( ng-click ="aleta2()")
+                                                        span.fa.fa-plus
+                                                        |  Agregar aleta 2
+
 
                         .panel-footer
                             .row

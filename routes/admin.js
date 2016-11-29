@@ -20,19 +20,69 @@ router.get('/', function(req, res, next) {
     res.render('admin/admin', { title: 'Administracion' });
 })
 
+//aletas
 
-router.post('/aleta/nueva', function (req, res, next) {
-    var nombre = req.query.nombre;
-    var des = req.query.descripcion;
-
-    var naleta = new Aleta({
-        forma: nombre,
-        descripcion: des,
-
-    })
-    res.send( {status:"ok"});
+router.get('/aleta/:ida', function (req, res) {
+    var ida = req.params.ida;
+    console.log(ida);
+    Aleta.getAletaById(ida, function (err, alet) {
+        if(err){
+            res.send("404");
+        }else {
+            res.send({
+                status:"ok",
+                aleta: alet
+            });
+        }
+    });
 })
 
+
+router.post('/aleta/nuevo', function (req, res, next) {
+
+    var forma = req.query.forma;
+    var des = req.query.descripcion;
+
+    var naleta = new Aleta({forma: forma,descripcion: des})
+    Aleta.crearAleta(naleta, function (err, alet) {
+        if(err) {throw err}
+        else {
+            res.send({
+                status: "ok"
+            })
+        }
+    })
+})
+
+router.post('/aleta/actualizar', function (req, res) {
+    var forma = req.query.forma;
+    var des = req.query.descripcion;
+    var ida = req.query.ida;
+
+    Aleta.actualizarAleta(ida, forma, des, function (err, alet) {
+        if (err) {throw err}
+        else{
+            res.send({
+                status:"ok"
+            })
+        }
+    })
+})
+
+router.delete("/aleta/:ida", function (req, res) {
+    var ida = req.params.ida;
+    Aleta.eliminarAleta(ida, function (err) {
+        if(err){throw err}
+        else {
+            res.send({
+                status:"ok"
+            })
+        }
+    })
+})
+
+
+//materiales
 
 router.get('/material/:idm', function (req, res) {
     var idm = req.params.idm;
@@ -73,7 +123,6 @@ router.post('/material/actualizar', function (req, res) {
     var nombre = req.query.nombre;
     var des = req.query.descripcion;
     var idm = req.query.idmaterial;
-    console.log(idm);
     Material.actualizar(nombre, des, idm, function (err, mate) {
         if (err) {throw err}
         else{
@@ -95,6 +144,7 @@ router.delete("/material/:idm", function (req, res) {
         }
     })
 })
+
 
 router.get("/catalogo", function (req, res) {
     Aleta.getAletas(function (err, aletas) {

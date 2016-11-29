@@ -23,16 +23,17 @@ block content
                         .panel-body
                             .row
                                 .col-md-6
-                                    .panel.panel-primary
+                                    .panel.panel-primary(style="height:500px;")
                                         .panel-heading Materiales
                                         .panel-body
                                             .row
                                                 .col-md-8
                                                     h4 Agregar un material nuevo
                                                 .col-md-4
-                                                    a.btn.btn-success(href="#modal-amaterial", data-toggle='modal') Nuevo
+                                                    a.btn.btn-success.btn-lg(href="#modal-amaterial", data-toggle='modal')
+                                                        span.glyphicon.glyphicon-plus
                                             hr
-                                            .row
+                                            .row(style="height: 350px;overflow-y: auto;")
                                                 table.table.table-striped.table-responsive
                                                     thead
                                                         tr
@@ -48,37 +49,32 @@ block content
                                                                     a.btn.btn-info(data-toggle="modal", href="#modal-mmaterial", ng-click="recuperarMaterial(mat._id)" ) actualizar
                                                                     a.btn.btn-danger(ng-click="eliminarMaterial(mat._id)") eliminar
                                 .col-md-6
-                                    .panel.panel-primary
+                                    .panel.panel-primary(style="height:500px;")
                                         .panel-heading Aletas
                                         .panel-body
                                             .row
                                                 .col-md-8
-                                                    h4 Agregar un nuevo tipo de Aletas
+                                                    h4 Agregar una aleta
                                                 .col-md-4
-                                                    a.btn.btn-success(href="#modal-naleta", data-toggle='modal')
+                                                    a.btn.btn-lg.btn-success(href="#modal-naleta", data-toggle='modal')
                                                         span.glyphicon.glyphicon-plus
                                             hr
-                                            .row
+                                            .row(style="height: 350px;overflow-y: auto;")
                                                 table.table.table-striped.table-responsive
                                                     thead
                                                         tr
                                                             th forma
                                                             th descripcion
-                                                            th es conjunto
                                                             th acciones
                                                     tbody
                                                         tr(ng-repeat="fo in formas")
                                                             td {{fo.forma}}
                                                             td {{fo.descripcion}}
                                                             td
-                                                                span.glyphicon.glyphicon-ok(ng-if="fo.conjunto")
-                                                                span.glyphicon.glyphicon-remove(ng-if="!fo.conjunto")
-
-                                                            td
                                                                 .btn-group(role="group")
-                                                                    a.btn.btn-info(data-toggle="modal", href="#modal-maleta", ng-click="recuperarAleta()" )
+                                                                    a.btn.btn-info(data-toggle="modal", href="#modal-maleta", ng-click="recuperarAleta(fo._id)" )
                                                                         span.glyphicon.glyphicon-pencil
-                                                                    a.btn.btn-danger(ng-click="eliminarAleta()")
+                                                                    a.btn.btn-danger(ng-click="eliminarAleta(fo._id)")
                                                                         spna.glyphicon.glyphicon-remove
                             .row
                                 .col-md-6
@@ -139,9 +135,6 @@ block content
                                 .form-group
                                     label.enc-tablas Descripción
                                     textarea.form-control(name='ndesaleta', ng-model='ndesaleta', rows='3', type='text', placeholder='descripcion' required )
-                                .form-group
-                                    label.enc-tablas Conjunto
-                                    input.form-control( type="checkbox" ,name='nconjunto', ng-model='nconjunto' )
                                 button.btn.btn-success( type="submit", ng-click="guardarAleta()", ng-disabled="naleta.$invalid") registrar material
 
 
@@ -162,10 +155,7 @@ block content
                                         .form-group
                                             label.enc-tablas Descripción
                                             textarea.form-control(name='mdesaleta', ng-model='mdesaleta', rows='3', type='text', placeholder='descripcion' required )
-                                        .form-group
-                                            label.enc-tablas Conjunto
-                                            input.form-control( type="checkbox" ,name='mconjunto', ng-model='mconjunto' )
-                                        button.btn.btn-success( type="submit", ng-click="modificarAleta()", ng-disabled="maleta.$invalid") registrar material
+                                        button.btn.btn-success( type="submit", ng-click="actualizarAleta()", ng-disabled="maleta.$invalid") registrar material
 
 
 
