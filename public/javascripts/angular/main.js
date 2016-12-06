@@ -9,7 +9,7 @@ app.config(function (ChartJsProvider) {
     });
 });
 
-app.controller('temperatura', ['$scope','$interval','$http', function ($scope, $interval, $http) {
+app.controller('temperatura', ['$scope','$interval','$http', '$location', function ($scope, $interval, $http, $location) {
 
     $scope.momento=0;
     $scope.pruebaEnProgreso= false;
@@ -22,17 +22,24 @@ app.controller('temperatura', ['$scope','$interval','$http', function ($scope, $
     };
 
     // timer:
-    
-    $scope.obtener = function (id) {
+
+    $scope.obtener = function () {
         $http({
             method: 'GET',
-            url: '/prueba/obtener/'+id
+            url: $location.absUrl().replace("http://localhost:3000/prueba/","/prueba/obtener/")
         }).success(function (data) {
-            if(typeof(data)=='object'){
+
                 $scope.prueba= data.p;
-            }
+                //console.log(data);
+                console.log($location.absUrl());
+        }).error(function () {
+            console.log( $location.absUrl().replace("http://localhost:3000/prueba/","/admin/obtener/"));
         })
     }
+
+    $scope.obtener();
+
+
     $scope.timerRunning = true;
 
     $scope.startTimer = function () {

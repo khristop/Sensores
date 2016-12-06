@@ -80,12 +80,13 @@ router.get('/:idp', function(req, res) {
     });
 });
 
-router.get('obtener/:idp', function(req, res) {
+router.get('/obtener/:idp', function(req, res) {
     var pruebaid = req.params.idp;
     Prueba.getPruebaById(pruebaid, function (err, prueba) {
         if(err){
             res.render("error404", {});
         }else {
+            console.log(prueba);
             res.send({ p:prueba});
         }
     });

@@ -6,12 +6,7 @@ block enlaces
         a.page-scroll(href='/inicio') inicio
 append head
     style.
-        footer {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
+
 
 block content
     section(ng-controller="Admininstracion", data-ng-init="init()")
@@ -27,9 +22,9 @@ block content
                                         .panel-heading Materiales
                                         .panel-body
                                             .row
-                                                .col-md-8
+                                                .col-sm-8
                                                     h4 Agregar un material nuevo
-                                                .col-md-4
+                                                .col-sm-4
                                                     a.btn.btn-success.btn-lg(href="#modal-amaterial", data-toggle='modal')
                                                         span.glyphicon.glyphicon-plus
                                             hr
@@ -53,9 +48,9 @@ block content
                                         .panel-heading Aletas
                                         .panel-body
                                             .row
-                                                .col-md-8
+                                                .col-sm-8
                                                     h4 Agregar una aleta
-                                                .col-md-4
+                                                .col-sm-4
                                                     a.btn.btn-lg.btn-success(href="#modal-naleta", data-toggle='modal')
                                                         span.glyphicon.glyphicon-plus
                                             hr
@@ -82,6 +77,12 @@ block content
                                         .panel-heading Intervalo de tiempo
                                         .panel-body
                                             h4 tiempo
+                                            hr
+                                            form
+                                                .form-group
+                                                    label intervalo de tiempo
+                                                    input#slider(type ="range" ,min ="5", max="10000", step ="1", ng-model="slider" value="60")
+                                                span {{slider}} segundos
         .modal.fade#modal-amaterial
             .modal-dialog
                 .modal-content
