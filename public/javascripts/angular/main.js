@@ -274,8 +274,10 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
     
     $scope.init = function () {
         $scope.obtener();
-
+        $scope.getTiempo();
     }
+
+
 
     $scope.idupdatematerial= 0;
     $scope.idupdatealeta= 0;
@@ -461,5 +463,39 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
         }).error(function(){
             alert('ERROR AL INTENTAR ELIMINAR LA ALETA');
         });
+    }
+
+    //tiempo
+
+    $scope.getTiempo= function() {
+        $http({
+            method: 'GET',
+            url: "/admin/tiempo"
+        }).success(function (data) {
+            if(data.status == "ok"){
+                $scope.slider = data.t.tiempo;
+            }
+        }).error(function () {
+                $scope.slider = "aun sin definir"
+            }
+        )
+    }
+
+    $scope.registrarTiempo= function () {
+        $http({
+            method: 'POST',
+            url: '/admin/tiempo',
+            params: {
+                tiempo: $scope.slider
+            }
+        }).success(function (data) {
+            if(data.status == "ok"){
+                sweetAlert("Buen trabajo!", "El tiempo ha sido modificado", "success");
+            }else{
+                console.log("no retorno el server");
+            }
+        }).error(function () {
+            alert('ERROR AL INTENTAR REGISTRAR EL TIEMPO');
+        })
     }
 });

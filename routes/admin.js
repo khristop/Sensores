@@ -37,7 +37,6 @@ router.get('/aleta/:ida', function (req, res) {
     });
 })
 
-
 router.post('/aleta/nuevo', function (req, res, next) {
 
     var forma = req.query.forma;
@@ -118,7 +117,6 @@ router.post('/material/nuevo', function (req, res, next) {
     })
 })
 
-
 router.post('/material/actualizar', function (req, res) {
     var nombre = req.query.nombre;
     var des = req.query.descripcion;
@@ -145,7 +143,7 @@ router.delete("/material/:idm", function (req, res) {
     })
 })
 
-
+//obtener todo
 router.get("/catalogo", function (req, res) {
     Aleta.getAletas(function (err, aletas) {
         if(err){
@@ -157,6 +155,36 @@ router.get("/catalogo", function (req, res) {
                 }else{
                     res.send({"formas": aletas, "materiales": materiales});
                 }
+            })
+        }
+    })
+})
+
+//tiempo
+router.get("/tiempo", function (req, res) {
+    Configuracion.getTiempo(function (err, tiempo) {
+        if(err){
+            res.send({status:"tiempo aun no definido"});
+        }else{
+            res.send({t:tiempo[0],
+                    status: "ok"});
+        }
+    } )
+
+})
+
+router.post('/tiempo', function (req, res) {
+    var valor = req.query.tiempo;
+
+    var config = new Configuracion({
+        tiempo: valor
+    })
+
+    Configuracion.guardarTiempo(config, function (err, configu) {
+        if (err) {throw err}
+        else{
+            res.send({
+                status:"ok"
             })
         }
     })

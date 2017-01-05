@@ -20,6 +20,16 @@ module.exports.setTiempo = function (tiempo, id, callback) {
     Configuracion.update( condicion, update, opciones, callback);
 }
 
+module.exports.guardarTiempo = function (config, callback) {
+    Configuracion.remove({}, function (err) {
+        if(err){
+            console.log("error al eliminar el tiempo");
+        }else{
+            config.save(callback);
+        }
+    })
+}
+
 module.exports.getTiempo = function (callback) {
     Configuracion.find(callback);
 }
