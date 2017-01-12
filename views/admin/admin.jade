@@ -70,7 +70,7 @@ block content
                                                                     a.btn.btn-info(data-toggle="modal", href="#modal-maleta", ng-click="recuperarAleta(fo._id)" )
                                                                         span.glyphicon.glyphicon-pencil
                                                                     a.btn.btn-danger(ng-click="eliminarAleta(fo._id)")
-                                                                        spna.glyphicon.glyphicon-remove
+                                                                        span.glyphicon.glyphicon-remove
                             .row
                                 .col-md-6
                                     .panel.panel-primary
@@ -163,5 +163,5 @@ block content
                                             textarea.form-control(name='mdesaleta', ng-model='mdesaleta', rows='3', type='text', placeholder='descripcion' required )
                                         button.btn.btn-success( type="submit", ng-click="actualizarAleta()", ng-disabled="maleta.$invalid") registrar material
 
-
-
+append script
+    script(src="/javascripts/angular/controladores/configuraciones.js")

@@ -92,4 +92,10 @@ router.get('/obtener/:idp', function(req, res) {
     });
 });
 
+router.post('/resultados', function (req, res) {
+    var resultados = req.params.aleta1;
+    var idp = req.params.idp;
+
+})
+
 module.exports = router;
