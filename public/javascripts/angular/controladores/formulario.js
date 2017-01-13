@@ -4,6 +4,8 @@ app.controller('Formulario', function ($scope, $http, $window) {
     $scope.materiales = {};
     $scope.formas = {};
 
+    $scope.aletaSimple= false;
+    $scope.aletaConjunto= false;
     $scope.conjunto = false;
 
     $scope.aleta2 = function () {
@@ -27,37 +29,42 @@ app.controller('Formulario', function ($scope, $http, $window) {
     }
 
     $scope.guardarPrueba = function () {
-        if($scope.conjunto) {
-            var peticion = $http({
-                method: 'POST',
-                url:'/prueba/crear',
-                params:{
-                    conjunto: $scope.conjunto,
-                    titulo: $scope.prueba.titulo,
-                    descripcion: $scope.prueba.descripcion,
-                    carnet: $scope.prueba.carnet,
-                    fecha: Date.now(),
-                    material1: $scope.prueba.material1,
-                    material2: $scope.prueba.material2,
-                    aleta1: $scope.prueba.aleta1,
-                    aleta2: $scope.prueba.aleta2
-                }
-            });
-        }else{
-            var peticion = $http({
-                method: 'POST',
-                url:'/prueba/crear',
-                params:{
-                    conjunto: $scope.conjunto,
-                    titulo: $scope.prueba.titulo,
-                    descripcion: $scope.prueba.descripcion,
-                    carnet: $scope.prueba.carnet,
-                    fecha: Date.now(),
-                    material1: $scope.prueba.material1,
-                    aleta1: $scope.prueba.aleta1
-                }
-            });
+        if($scope.aletaSimple == $scope.aletaConjunto ){
+            $scope.conjunto = true;
         }
+
+        var datos = {
+            conjunto: $scope.conjunto,
+            titulo: $scope.prueba.titulo,
+            descripcion: $scope.prueba.descripcion,
+            carnet: $scope.prueba.carnet,
+            fecha: Date.now(),
+            aletaSimple:{
+                estado: $scope.aletaSimple,
+                material: 0,
+                tipo: 0
+            },
+            aletaConjunto:{
+                estado: $scope.aletaConjunto,
+                material: 0,
+                tipo: 0
+            }
+        };
+
+        if($scope.aletaSimple){
+            datos.aletaSimple.material= $scope.prueba.material1;
+            datos.aletaSimple.tipo= $scope.prueba.aleta1;
+        }
+        if($scope.aletaConjunto){
+            datos.aletaConjunto.material= $scope.prueba.material2;
+            datos.aletaConjunto.tipo = $scope.prueba.aleta2;
+        }
+
+        var peticion = $http({
+            method: 'POST',
+            url:'/prueba/crear',
+            params: datos
+        });
 
         peticion.success(function (data) {
             if(data.status=="ok"){

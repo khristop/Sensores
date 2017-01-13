@@ -98,7 +98,7 @@ mySerial.on("open", function () {
 });
 
 mySerial.on("data", function (dato) {
-  console.log(dato);
+  //console.log(dato);
   io.sockets.emit('lectura', dato);
   if (dato.localeCompare('Ready') != -1){
     mySerial.write('go',function () {

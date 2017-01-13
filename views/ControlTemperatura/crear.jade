@@ -39,52 +39,66 @@ block content
                                                 input.form-control#carnet(type="text", name="carnet",ng-model="prueba.carnet",placeholder="GS01001", required)
                                                 p.help-block( ng-show="form.carnet.$invalid && !form.carnet.$pristine") El carnet es requerido
                                     .col-md-6
-                                        h5.text-center Aletas y materiales
+                                        .row
+                                            .col-sm-12
+                                                h5.text-center Aletas y materiales
                                         .row
                                             .col-md-12
-                                                h6 Aleta 1
-                                                .form-group
-                                                    label.col-sm-4.control-label(for="material" required) Material a utilizar
-                                                    .col-sm-6
-                                                        select.form-control#material(name="material",ng-model="prueba.material1" required)
-                                                            option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
+                                                .row
+                                                    .col-sm-5
+                                                        h6 Aleta Simple
+                                                    .col-sm-7
+                                                        .checkbox
+                                                            label
+                                                                input(type="checkbox",ng-model="aletaSimple")
+                                                                | usar aleta simple
+                                                .row()
+                                                    .col-md-12
+                                                        .form-group
+                                                            label.col-sm-4.control-label(for="material" required) Material a utilizar
+                                                            .col-sm-6
+                                                                select.form-control#material(ng-disabled="!aletaSimple",name="material",ng-model="prueba.material1", ng-required="aletaSimple")
+                                                                    option(value="") --seleccione una opcion--
+                                                                    option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
 
-                                                .form-group
-                                                    label.col-sm-4.control-label(for="aleta" required) Aleta a usar
-                                                    .col-sm-6
-                                                        select.form-control#aleta(name="aleta",ng-model="prueba.aleta1" required)
-                                                            option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
+                                                        .form-group
+                                                            label.col-sm-4.control-label(for="aleta" required) Aleta a usar
+                                                            .col-sm-6
+                                                                select.form-control#aleta(ng-disabled="!aletaSimple",name="aleta",ng-model="prueba.aleta1" , ng-required="aletaSimple")
+                                                                    option(value="") --seleccione una opcion--
+                                                                    option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
+                                        .row
+                                            .col-md-12
+                                                .row
+                                                    .col-sm-5
+                                                        h6 Aleta de Conjunto
+                                                    .col-sm-7
+                                                        .checkbox
+                                                            label
+                                                                input(type="checkbox",ng-model="aletaConjunto")
+                                                                | usar aleta de conjunto
+                                                .row
+                                                    .col-sm-12
+                                                        .form-group
+                                                            label.col-sm-4.control-label(for="material2") Material a utilizar
+                                                            .col-sm-6
+                                                                select.form-control#material2(ng-disabled="!aletaConjunto",name="material2",ng-model="prueba.material2", ng-required="aletaConjunto")
+                                                                    option(value="") --seleccione una opcion--
+                                                                    option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
 
-                                            .col-md-12(ng-if="conjunto")
-                                                h6 Aleta 2
-                                                .form-group
-                                                    label.col-sm-4.control-label(for="material2") Material a utilizar
-                                                    .col-sm-6
-                                                        select.form-control#material2(name="material2",ng-model="prueba.material2" required)
-                                                            option(ng-repeat="mat in materiales" value="{{mat._id}}") {{mat.nombre}}
-
-                                                .form-group
-                                                    label.col-sm-4.control-label(for="aleta2") Aleta a usar
-                                                    .col-sm-6
-                                                        select.form-control#aleta2(name="aleta2",ng-model="prueba.aleta2" required)
-                                                            option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
-                                                .text-center
-                                                    a.btn.btn-sm.btn-danger( ng-click ="aleta2()")
-                                                        span.fa.fa-remove
-                                                        |  Remover aleta 2
-
-                                            .col-md-12(ng-if="!conjunto")
-                                                .text-center
-                                                    a.btn.btn-lg.btn-success( ng-click ="aleta2()")
-                                                        span.fa.fa-plus
-                                                        |  Agregar aleta 2
+                                                        .form-group
+                                                            label.col-sm-4.control-label(for="aleta2") Aleta a usar
+                                                            .col-sm-6
+                                                                select.form-control#aleta2(ng-disabled="!aletaConjunto",name="aleta2",ng-model="prueba.aleta2", ng-required="aletaConjunto")
+                                                                    option(value="") --seleccione una opcion--
+                                                                    option(ng-repeat="al in formas" value="{{al._id}}") {{al.forma}}
 
 
                         .panel-footer
                             .row
                                 .col-lg-8
                                 .col-lg-4
-                                    button.btn.btn-lg.btn-info(type="submit",ng-click="guardarPrueba()", ng-disabled="form.$invalid") registrar
+                                    button.btn.btn-lg.btn-info(type="submit",ng-click="guardarPrueba()", ng-disabled="form.$invalid || !(aletaConjunto || aletaSimple)") registrar
 
 append script
     script(src="/javascripts/angular/controladores/formulario.js")

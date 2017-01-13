@@ -157,28 +157,43 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
     };
 
     $scope.registrarDatos = function () {
-        $scope.estadoPrueba= 4;
-        console.log($scope.prueba._id);
-        $http({
+        //$scope.estadoPrueba= 4;
+        var datos = {
+            aleta1: [],
+            aleta2:[]
+        };
+        var indi = 0;
+        for(var i= 0; i < $scope.series.length; i++){
+            for(var j=0; j<$scope.labels.length; j++) {
+                datos.aleta1.push(
+                    {
+                        sensor:indi,
+                        valor: $scope.data[i][j],
+                        tiempo: $scope.labels[j]
+                    }
+                )
+            }
+            indi++;
+        }
+        console.log(datos);
+        /*$http({
             method: "POST",
-            url: "/",
+            url: "/prueba/"+$scope.prueba._id,
             params: {
-                idp: $scope.prueba._id,
-                resultado : {
-                    tiempo: $scope.labels,
+                resultados : {
+                    tiempo: [$scope.labels],
                     aleta1:{
                         s1 : $scope.data[0],
                         s2 : $scope.data[1],
                         s3 : $scope.data[2],
                         s4 : $scope.data[3],
-                        s5 : $scope.data[4],
-                    },
-                    aleta2:{
-
+                        s5 : $scope.data[4]
                     }
+                    //aleta2:{
+                    //}
                 }
             }
-        })
+        })*/
 
     };
 

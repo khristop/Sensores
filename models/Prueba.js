@@ -9,21 +9,33 @@ var PruebaSchema = moongose.Schema({
     //propiedades o atributos
     titulo:{type: String},
     descripcion:{type: String},
-    fecha:{type:[Date]},
+    fecha:{type:Date},
     carnet:{type: String},
     realizada:{type:Boolean, default: false},
+
     conjunto:{type:Boolean, default:false},
-    material1: {
-        type: moongose.Schema.Types.ObjectId, ref: 'Material'
+
+    aletaSimple:{
+        estado:{ type: Boolean, default: false},
+        material: {
+            type: moongose.Schema.Types.ObjectId, ref: 'Material'
+        },
+        tipo:{
+            type:moongose.Schema.Types.ObjectId, ref:'Aleta'
+        }
+
     },
-    material2:{
-        type:moongose.Schema.Types.ObjectId, ref:'Material'
+    aletaConjunto:{
+        estado:{ type: Boolean, default: false},
+        material: {
+            type: moongose.Schema.Types.ObjectId, ref: 'Material'
+        },
+        tipo:{
+            type:moongose.Schema.Types.ObjectId, ref:'Aleta'
+        }
     },
-    aleta1:{
-        type:moongose.Schema.Types.ObjectId, ref:'Aleta'
-    },
-    aleta2:{
-        type:moongose.Schema.Types.ObjectId, ref:'Aleta'
+    resultados: {
+        type:moongose.Schema.Types.ObjectId, ref:'Resultado'
     }
 });
 
@@ -35,7 +47,7 @@ module.exports.createPrueba = function (prueba, callback) {
 
 module.exports.getPruebaById = function (id, callback) {
     Prueba.findById(id, callback)
-        .populate('material1').populate('material2').populate('aleta1').populate('aleta2');
+        .populate('aletaSimple.material').populate('aletaConjunto.material').populate('aletaSimple.tipo').populate('aletaConjunto.tipo');
 }
 
 module.exports.realizarPruebaById = function(id, callback){

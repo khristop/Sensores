@@ -29,21 +29,23 @@ block content
                                         .panel-body
                                             .row
                                                 .col-md-6
-                                                    h6 Id de prueba: #{p._id}
-                                                    h6 Titulo: #{p.titulo}
-                                                    h6 Carnet de estudiante: #{p.carnet}
-                                                    h6 Descripcion: #{p.descripcion}
-                                                    h6 Fecha de creacion: {{prueba.fecha[0] | date: 'medium'}}
+                                                    h6 Id de prueba: {{prueba._id}}
+                                                    h6 Titulo: {{prueba.titulo}}
+                                                    h6 Carnet de estudiante: {{prueba.carnet}}
+                                                    h6 Descripcion: {{prueba.descripcion}}
+                                                    h6 Fecha de creacion: {{prueba.fecha | date: 'medium'}}
                                                 .col-md-6
                                                     h5 aletas
-                                                    h6 aleta simple :
-                                                        span.label.label-primary {{prueba.aleta1.forma}}
+                                                    h6(ng-if="prueba.aletaSimple.estado") aleta simple :
+                                                        span.label.label-primary( ng-bind="prueba.aletaSimple.material.nombre")
                                                         | -
-                                                        span.label.label-info(ng-if="prueba.conjunto" ng-bind="prueba.material1.nombre")
-                                                    h6 aleta multiple :
-                                                        span.label.label-primary {{prueba.aleta2.forma}}
+                                                        span.label.label-info(ng-bind="prueba.aletaSimple.tipo.forma")
+                                                    h6(ng-if="!prueba.aletaSimple.estado") aleta simple : NO APLICA
+                                                    h6(ng-if="prueba.aletaConjunto.estado") aleta de conjunto :
+                                                        span.label.label-primary(ng-bind="prueba.aletaConjunto.material.nombre")
                                                         | -
-                                                        span.label.label-info(ng-if="prueba.conjunto" ng-bind="prueba.material2.nombre")
+                                                        span.label.label-info(ng-bind="prueba.aletaConjunto.tipo.forma")
+                                                    h6(ng-if="!prueba.aletaConjunto.estado") aleta de conjunto : NO APLICA
                                                     h6 estado:
                                                         span.label.label-success(ng-if="p.realizada") realizada
                                                         span.label.label-warning(ng-if="!p.realizada") sin realizar
@@ -52,7 +54,7 @@ block content
                                     hr
                                     .panel.panel-default
                                         .panel-heading temperaturas
-                                        .panel-body#imprimir
+                                        .panel-body
                                             .row
                                                 .col-md-4
                                                 .col-md-4
@@ -61,9 +63,10 @@ block content
                                                 div
                                                     ul.nav.nav-tabs(role='tablist')
                                                         li.active(role='presentation')
-                                                            a(href='#aleta1', aria-controls='aleta1', role='tab', data-toggle='tab') {{prueba.aleta1.forma}} - {{prueba.material1.nombre}}
+                                                            a(href='#aleta1', aria-controls='aleta1', role='tab', data-toggle='tab', ng-if="prueba.aletaSimple.estado") {{prueba.aletaSimple.material.nombre}} - {{prueba.aletaSimple.tipo.forma}}
+                                                            a(href='#aleta1', aria-controls='aleta1', role='tab', data-toggle='tab', ng-if="!prueba.aletaSimple.estado") {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
                                                         li(ng-if="prueba.conjunto" role='presentation')
-                                                            a(href='#aleta2', aria-controls='profile', role='tab', data-toggle='tab') {{prueba.aleta2.forma}} - {{prueba.material2.nombre}}
+                                                            a(href='#aleta2', aria-controls='profile', role='tab', data-toggle='tab') {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
 
                                                     // Tab panes
                                                     .tab-content
@@ -102,7 +105,7 @@ block content
                                                                                 td
                                                                                     a.btn.btn-info(ng-click="seleccionar(val)") seleccionar
 
-                                                        #aleta2.tab-pane(role='tabpanel')
+                                                        #aleta2.tab-pane(role='tabpanel', ng-if="prueba.conjunto")
                                                             .col-md-5(style="height: 700px")
                                                                 h4 Perfil de temperatura
                                                                 canvas#diagPerfil2.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
@@ -142,7 +145,7 @@ block content
                                             .row(ng-if="pruebaEnProgreso == true")
                                                 .col-md-3(ng-if="(estadoPrueba!= 4)")
                                                     a.btn.btn-lg.btn-danger( ng-disabled="(estadoPrueba== 4)", ng-click="desconectar()") Cancelar Prueba
-                                                .col-md-3(ng-if="(estadoPrueba==2 || estadoPrueba==3)")
+                                                .col-md-3(ng-if="(estadoPrueba == 2 || estadoPrueba==3)")
                                                     a.btn.btn-lg.btn-warning( ng-click="reiniciar()") Reinicar prueba
                                                 .col-md-3(ng-if="(estadoPrueba == 2)")
                                                     a.btn.btn-lg.btn-info( ng-click="finalizar()") Finalizar prueba
