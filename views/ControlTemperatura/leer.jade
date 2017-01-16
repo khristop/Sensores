@@ -10,7 +10,12 @@ block enlaces
     li
         a.page-scroll(href='/inicio') inicio
     li
+        a.page-scroll(href='/prueba') consultar
+    li
+        a.page-scroll(href='/prueba/crear') nueva
+    li
         a.page-scroll(href='#prueba') prueba
+
 
 block content
 
@@ -47,8 +52,8 @@ block content
                                                         span.label.label-info(ng-bind="prueba.aletaConjunto.tipo.forma")
                                                     h6(ng-if="!prueba.aletaConjunto.estado") aleta de conjunto : NO APLICA
                                                     h6 estado:
-                                                        span.label.label-success(ng-if="p.realizada") realizada
-                                                        span.label.label-warning(ng-if="!p.realizada") sin realizar
+                                                        span.label.label-success(ng-if="prueba.realizada") realizada
+                                                        span.label.label-warning(ng-if="!prueba.realizada") sin realizar
                             .row
                                 .col-md-12
                                     hr
@@ -57,66 +62,38 @@ block content
                                         .panel-body
                                             .row
                                                 .col-md-4
-                                                .col-md-4
+                                                .col-md-4(ng-if="!prueba.realizada")
                                                     a.btn.btn-lg.btn-success(ng-click="conectar()" ng-show="pruebaEnProgreso == false") Iniciar prueba
-                                            .row(ng-if="pruebaEnProgreso == true")
+                                            .row(ng-if="pruebaEnProgreso == true || prueba.realizada")
                                                 div
                                                     ul.nav.nav-tabs(role='tablist')
                                                         li.active(role='presentation')
                                                             a(href='#aleta1', aria-controls='aleta1', role='tab', data-toggle='tab', ng-if="prueba.aletaSimple.estado") {{prueba.aletaSimple.material.nombre}} - {{prueba.aletaSimple.tipo.forma}}
-                                                            a(href='#aleta1', aria-controls='aleta1', role='tab', data-toggle='tab', ng-if="!prueba.aletaSimple.estado") {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
+                                                            a(href='#aleta2', aria-controls='aleta2', role='tab', data-toggle='tab', ng-if="!prueba.aletaSimple.estado") {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
                                                         li(ng-if="prueba.conjunto" role='presentation')
-                                                            a(href='#aleta2', aria-controls='profile', role='tab', data-toggle='tab') {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
+                                                            a(href='#aleta2', aria-controls='aleta2', role='tab', data-toggle='tab') {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
 
                                                     // Tab panes
                                                     .tab-content
-                                                        #aleta1.tab-pane.active(role='tabpanel')
-                                                            .col-md-5(style="height: 700px")
-                                                                h4 Perfil de temperatura
-                                                                canvas#diagPerfil1.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
-                                                                hr
-                                                                h4 Temperatura/tiempo
-                                                                canvas#diagTiempo1.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
-                                                                hr
-                                                                h4 Tiempo de prueba:
-                                                                h4
-                                                                    timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
-                                                            .col-md-7
-                                                                h4 Tabla de valores
-                                                                div(style="height: 650px;overflow-y: auto;")
-                                                                    table.table.table-bordered.table-striped.table-responsive
-                                                                        thead
-                                                                            tr
-                                                                                th Tiempo(Segundos)
-                                                                                th Sensor 1
-                                                                                th Sensor 2
-                                                                                th Sensor 3
-                                                                                th Sensor 4
-                                                                                th Sensor 5
-                                                                                th accion
-                                                                        tbody
-                                                                            tr(ng-repeat="val in capturas.lista")
-                                                                                td {{val.tiempo}} s
-                                                                                td {{val.s1}} °C
-                                                                                td {{val.s2}} °C
-                                                                                td {{val.s3}} °C
-                                                                                td {{val.s4}} °C
-                                                                                td {{val.s5}} °C
-                                                                                td
-                                                                                    a.btn.btn-info(ng-click="seleccionar(val)") seleccionar
+                                                        #aleta1.tab-pane.active(role='tabpanel', ng-if="prueba.aletaSimple.estado")
+                                                            .col-lg-12.col-md-12
+                                                                h3 Aleta Simple, {{prueba.aletaSimple.material.nombre}} - {{prueba.aletaSimple.tipo.forma}}
+                                                            .col-lg-5.col-md-12
+                                                                .row
+                                                                    .col-lg-12.col-md-6
 
-                                                        #aleta2.tab-pane(role='tabpanel', ng-if="prueba.conjunto")
-                                                            .col-md-5(style="height: 700px")
-                                                                h4 Perfil de temperatura
-                                                                canvas#diagPerfil2.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
-                                                                hr
-                                                                h4 Temperatura/tiempo
-                                                                canvas#diagTiempo2.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
-                                                                hr
-                                                                h4 Tiempo de prueba:
-                                                                h4
-                                                                timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
-                                                            .col-md-7
+                                                                        h4 Perfil de temperatura 1
+                                                                        canvas#diagPerfil1.chart.chart-line(chart-data='data1', chart-labels='labels1', chart-series='series1', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
+                                                                        hr
+                                                                    .col-lg-12.col-md-6
+                                                                        h4 Temperatura/tiempo
+                                                                        canvas#diagTiempo1.chart.chart-line(chart-data='data', chart-labels='labels', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
+                                                                        hr
+                                                                        div(ng-if="!prueba.realizada")
+                                                                            h4 Tiempo de prueba:
+                                                                            h4
+                                                                                timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
+                                                            .col-lg-7.col-md-12
                                                                 h4 Tabla de valores
                                                                 div(style="height: 650px;overflow-y: auto;")
                                                                     table.table.table-bordered.table-striped.table-responsive
@@ -138,7 +115,48 @@ block content
                                                                                 td {{val.s4}} °C
                                                                                 td {{val.s5}} °C
                                                                                 td
-                                                                                    a.btn.btn-info(ng-click="seleccionar(val)") seleccionar
+                                                                                    a.btn.btn-info(ng-click="seleccionar(1,val)") seleccionar
+
+                                                        #aleta2.tab-pane.active(role='tabpanel', ng-if="prueba.aletaConjunto.estado")
+                                                            .col-lg-12.col-md-12
+                                                                h3 Aleta de Conjunto, {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
+                                                            .col-lg-5.col-md-12
+                                                                .row
+                                                                    .col-lg-12.col-md-6
+                                                                        h4 Perfil de temperatura 2
+                                                                        canvas#diagPerfil2.chart.chart-line(chart-data='dataPerfilConjunto', chart-labels='labelsPerfilConjunto', chart-series='seriePerfilConjunto', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
+                                                                        hr
+                                                                    .col-lg-12.col-md-6
+                                                                        h4 Temperatura/tiempo
+                                                                        canvas#diagTiempo2.chart.chart-line(chart-data='dataConjunto', chart-labels='labelsConjunto', chart-series='series', chart-options='options', chart-dataset-override='datasetOverride', chart-click='onClick', canvas = '')
+                                                                        hr
+                                                                        div(ng-if="!prueba.realizada")
+                                                                            h4 Tiempo de prueba:
+                                                                            h4
+                                                                                timer(interval="1000") {{hours}} horas, {{minutes}} minutos, {{seconds}} segundo{{secondsS}}.
+                                                            .col-lg-7.col-md-12
+                                                                h4 Tabla de valores
+                                                                div(style="height: 650px;overflow-y: auto;")
+                                                                    table.table.table-bordered.table-striped.table-responsive
+                                                                        thead
+                                                                            tr
+                                                                                th Tiempo(Segundos)
+                                                                                th Sensor 1
+                                                                                th Sensor 2
+                                                                                th Sensor 3
+                                                                                th Sensor 4
+                                                                                th Sensor 5
+                                                                                th accion
+                                                                        tbody
+                                                                            tr(ng-repeat="val in capturas.lista")
+                                                                                td {{val.tiempo}} s
+                                                                                td {{val.s6}} °C
+                                                                                td {{val.s7}} °C
+                                                                                td {{val.s8}} °C
+                                                                                td {{val.s9}} °C
+                                                                                td {{val.s10}} °C
+                                                                                td
+                                                                                    a.btn.btn-info(ng-click="seleccionar(2,val)") seleccionar
 
 
                                         .panel-footer
@@ -151,6 +169,9 @@ block content
                                                     a.btn.btn-lg.btn-info( ng-click="finalizar()") Finalizar prueba
                                                 .col-md-3(ng-if="(estadoPrueba == 3 || estadoPrueba == 5)")
                                                     a.btn.btn-lg.btn-success( ng-click="registrarDatos()" ) guardar resultado
+                                            .row(ng-if="prueba.realizada")
+                                                .col-md-12
+                                                    a.btn.btn-lg.btn-danger(ng-click="eliminarPrueba") eliminar prueba
 append script
     script(src="/javascripts/angular/controladores/prueba.js")
 

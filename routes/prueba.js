@@ -10,6 +10,25 @@ var Prueba = require('../models/Prueba');
 var Resultado = require('../models/Resultado');
 /* GET home page. */
 
+router.get('/', function (req, res) {
+    res.render('ControlTemperatura/consultar', {
+        title:'Consulta de pruebas'
+    })
+})
+
+router.get('/lista', function (req, res) {
+    Prueba.getPruebas(function (err, pruebas) {
+        if(err){
+            res.send({status:"No se encontraron pruebas"});
+        }else{
+            //console.log(pruebas);
+            res.send({
+                status:'ok',
+                title: 'Consulta de pruebas',
+                pruebas: pruebas});
+        }
+    })
+})
 
 router.get('/crear', function(req, res) {
     res.render('ControlTemperatura/crear', { title: 'Formulario de prueba nueva' });
@@ -55,7 +74,7 @@ router.post('/crear', function (req, res) {
     Prueba.createPrueba(prueba, function (err, prueba) {
         if (err) {throw err}
         else {
-            console.log(prueba)
+            //console.log(prueba)
             res.send({
                 status: "ok",
                 id: prueba._id
@@ -70,7 +89,6 @@ router.get('/:idp', function(req, res) {
         if(err){
             res.render("error404", {});
         }else {
-            console.log(prueba);
             res.render('ControlTemperatura/leer', { title: 'Prueba', p:prueba});
         }
     });
@@ -82,7 +100,6 @@ router.get('/obtener/:idp', function(req, res) {
         if(err){
             res.render("error404", {});
         }else {
-            console.log(prueba);
             res.send({ p:prueba});
         }
     });
@@ -90,29 +107,35 @@ router.get('/obtener/:idp', function(req, res) {
 
 router.post('/:idp', function (req, res) {
     var pruebaid = req.params.idp;
-    var datos = JSON.stringify(req.query.resultados);
-    console.log(datos.tiempo);
-    if(datos.tiempo){
-        var capturas= {};
-        var sensores;
-        for (i=0; i<datos.tiempo.length; i++){
-            if(datos.aleta1){
-                sensores = 1;
-                for (sensor in datos.aleta1){
-                    capturas.aleta1.push({
-                        tiempo: datos.aleta1.tiempo,
-                        valor: sensor[i],
-                        sensor: 's'+sensores
-                    });
-                    sensores++;
-                }
-            }
-        }
-        console.log(capturas);
-        var resultadoPrueba = new Resultado();
+    var datos = JSON.parse(req.query.resultados);
+
+    resu = new Resultado({
+
+    });
+
+    if(datos.aleta1){
+        resu.aleta1 = datos.aleta1;
     }
-    console.log(datos);
-    res.send("ok");
+
+    if(datos.aleta2){
+        resu.aleta2= datos.aleta2;
+    }
+
+    console.log(resu);
+    Resultado.registrarResultados(resu, function (err, objeto) {
+        if(err){
+            res.send({status:"error al guardar resultados"});
+        }else{
+            Prueba.realizarPruebaById(pruebaid, objeto._id, function (err, pruRealizada) {
+                if(err){
+                    res.send({status:"error al vincular resultados"});
+                }else{
+
+                    res.send({status:"ok"});
+                }
+            })
+        }
+    })
 });
 
 module.exports = router;

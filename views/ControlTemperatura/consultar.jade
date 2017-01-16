@@ -1,0 +1,49 @@
+extends ../base
+
+append head
+    style.
+
+block enlaces
+    li
+        a.page-scroll(href='/inicio') inicio
+    li
+        a.page-scroll(href='/prueba/crear') nueva
+    li
+        a.page-scroll(href='#consultar') consultar
+
+block content
+    section#consultar
+        .container(ng-controller="consulta")
+            .row
+                .col-lg-12
+                    h2 Consulta de pruebas
+                    .panel.panel-info
+                        .panel-heading Registro de pruebas
+                        .panel-body
+                            .row
+                                .col-md-12
+                                    h2(ng-if="lista.length == 0") No hay pruebas registradas
+                                    table.table.table-striped.table-hover(ng-if="lista.length != 0")
+                                        thead
+                                            tr
+                                                th Titulo
+                                                th.text-center Carnet
+                                                th.text-center ID
+                                                th.text-center estado
+                                                th.text-center fecha
+                                        tbody
+                                            tr(ng-repeat="pru in lista", ng-click="abrir(pru._id)")
+                                                td(ng-bind="pru.titulo")
+                                                td.text-center(ng-bind="pru.carnet")
+                                                td.text-center(ng-bind="pru._id")
+                                                td.text-center
+                                                    span.label.label-success(ng-if="pru.realizada") realizada
+                                                    span.label.label-warning(ng-if="!pru.realizada") no realizada
+
+                                                td.text-center {{pru.fecha | date}}
+
+                        .panel-footer
+
+
+append script
+    script(src="/javascripts/angular/controladores/consultar.js")

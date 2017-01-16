@@ -142,11 +142,34 @@ void loop()
     //dtostrf(celcius5, 6, 2, valor);
     valor = "30.00";
     message += valor;
+
+    message += ", \"s6\":";
+    //dtostrf(celcius6, 6, 2, valor);
+    valor = "1.00";
+    message += valor;
+    
+    message += ", \"s7\":";
+    //dtostrf(celcius7, 6, 2, valor);
+    valor = "2.00";
+    message += valor;
+    
+    message += ", \"s8\":";
+    //dtostrf(celcius8, 6, 2, valor);
+    valor = "3.00";
+    message += valor;
+    
+    message += ", \"s9\":";
+    //dtostrf(celcius9, 6, 2, valor);
+    valor = "4.00";
+    message += valor;
+
+    message += ", \"s10\":";
+    //dtostrf(celcius10, 6, 2, valor);
+    valor = "5.00";
+    message += valor;
     
     message += "}";
- 
     Serial.println(message);
-    
   }
   delay(1000);                         // Espera un segundo para imprimir de nuevo.
 }

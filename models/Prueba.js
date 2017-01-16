@@ -46,10 +46,25 @@ module.exports.createPrueba = function (prueba, callback) {
 }
 
 module.exports.getPruebaById = function (id, callback) {
+    var bandera = false;
+    /*Prueba.findById(id, function (err, p) {
+        if(p.realizada == true){
+
+        }
+    })*/
     Prueba.findById(id, callback)
-        .populate('aletaSimple.material').populate('aletaConjunto.material').populate('aletaSimple.tipo').populate('aletaConjunto.tipo');
+        .populate('aletaSimple.material')
+        .populate('aletaConjunto.material')
+        .populate('aletaSimple.tipo')
+        .populate('aletaConjunto.tipo')
+        .populate('resultados');
+
 }
 
-module.exports.realizarPruebaById = function(id, callback){
-    Prueba.update({ _id: id }, { realizada: true}, {}, callback );
+module.exports.realizarPruebaById = function(id, idr,callback){
+    Prueba.update({ _id: id }, { realizada: true, resultados:idr }, {}, callback );
+}
+
+module.exports.getPruebas = function (callback) {
+    Prueba.find({}, callback);
 }
