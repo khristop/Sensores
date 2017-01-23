@@ -32,7 +32,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
         }).success(function (data) {
             $scope.prueba= data.p;
             var sensor=0;
-            var valu={s1: [], s2: [], s3: [], s4: [], s5: [], s6: [], s7:[], s8:[], s9:[], s10:[]};
+            var valu={s1: [], s2: [], s3: [], s4: [], s5: [], s6: [], s7:[], s8:[], s9:[], s10:[], s11:[], s12:[]};
             var tiempoi=[];
             if($scope.prueba.realizada){
                 if($scope.prueba.aletaSimple.estado) {
@@ -48,31 +48,37 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                                 if($scope.prueba.aletaSimple.estado)
                                     valu.s1.push(obj.valor);
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s6.push(obj2.valor);
+                                    valu.s7.push(obj2.valor);
                                 break;
                             case 1:
                                 if($scope.prueba.aletaSimple.estado)
                                     valu.s2.push(obj.valor);
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s7.push(obj2.valor);
+                                    valu.s8.push(obj2.valor);
                                 break;
                             case 2:
                                 if($scope.prueba.aletaSimple.estado)
                                     valu.s3.push(obj.valor);
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s8.push(obj2.valor);
+                                    valu.s9.push(obj2.valor);
                                 break;
                             case 3:
                                 if($scope.prueba.aletaSimple.estado)
                                     valu.s4.push(obj.valor);
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s9.push(obj2.valor);
+                                    valu.s10.push(obj2.valor);
                                 break;
                             case 4:
                                 if($scope.prueba.aletaSimple.estado)
                                     valu.s5.push(obj.valor);
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s10.push(obj2.valor);
+                                    valu.s11.push(obj2.valor);
+                                break;
+                            case 5:
+                                if($scope.prueba.aletaSimple.estado)
+                                    valu.s6.push(obj.valor);
+                                if($scope.prueba.aletaConjunto.estado)
+                                    valu.s12.push(obj2.valor);
                                 break;
                         }
                     }
@@ -86,23 +92,27 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                         switch (parseInt(obj2.sensor)) {
                             case 0:
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s6.push(obj2.valor);
+                                    valu.s7.push(obj2.valor);
                                 break;
                             case 1:
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s7.push(obj2.valor);
+                                    valu.s8.push(obj2.valor);
                                 break;
                             case 2:
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s8.push(obj2.valor);
+                                    valu.s9.push(obj2.valor);
                                 break;
                             case 3:
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s9.push(obj2.valor);
+                                    valu.s10.push(obj2.valor);
                                 break;
                             case 4:
                                 if($scope.prueba.aletaConjunto.estado)
-                                    valu.s10.push(obj2.valor);
+                                    valu.s11.push(obj2.valor);
+                                break;
+                            case 5:
+                                if($scope.prueba.aletaConjunto.estado)
+                                    valu.s12.push(obj2.valor);
                                 break;
                         }
                     }
@@ -121,19 +131,21 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                             s8: valu.s8[j],
                             s9: valu.s9[j],
                             s10: valu.s10[j],
+                            s11: valu.s11[j],
+                            s12: valu.s12[j],
                             tiempo: tiempoi[j]
                         }
                         $scope.capturas.lista.push(as);
-                        $scope.data= [valu.s1,valu.s2,valu.s3,valu.s4,valu.s5];
+                        $scope.data= [valu.s1,valu.s2,valu.s3,valu.s4,valu.s5,valu.s6];
                         $scope.labels = tiempoi;
 
-                        $scope.dataConjunto = [valu.s6,valu.s7,valu.s8,valu.s9,valu.s10];
+                        $scope.dataConjunto = [valu.s7,valu.s8,valu.s9,valu.s10, valu.s11, valu.s12];
                         $scope.labelsConjunto = tiempoi;
                         $scope.seriePerfilConjunto = ['seleccione un registro'];
-                        $scope.dataPerfilConjunto=[[valu.s6,valu.s7,valu.s8,valu.s9,valu.s10]];
+                        $scope.dataPerfilConjunto=[[valu.s7,valu.s8,valu.s9,valu.s10, valu.s11, valu.s12]];
 
                         $scope.series1 = ['seleccione un registro'];
-                        $scope.data1 = [[valu.s1, valu.s2, valu.s3, valu.s4, valu.s5]];
+                        $scope.data1 = [[valu.s1,valu.s2,valu.s3,valu.s4,valu.s5,valu.s6]];
                     }else {
                         if($scope.prueba.aletaSimple.estado){
                             as = {
@@ -142,6 +154,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                                 s3: valu.s3[j],
                                 s4: valu.s4[j],
                                 s5: valu.s5[j],
+                                s6: valu.s6[j],
                                 tiempo: tiempoi[j]
                             };
                             $scope.capturas.lista.push(as);
@@ -151,19 +164,20 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                             $scope.data1 = [[valu.s1, valu.s2, valu.s3, valu.s4, valu.s5]];
                         }else {
                             as = {
-                                s6: valu.s6[j],
                                 s7: valu.s7[j],
                                 s8: valu.s8[j],
                                 s9: valu.s9[j],
                                 s10: valu.s10[j],
+                                s11: valu.s11[j],
+                                s12: valu.s12[j],
                                 tiempo: tiempoi[j]
                             }
                             $scope.capturas.lista.push(as);
 
-                            $scope.dataConjunto = [valu.s6,valu.s7,valu.s8,valu.s9,valu.s10];
+                            $scope.dataConjunto = [valu.s7,valu.s8,valu.s9,valu.s10,valu.s11,valu.s12];
                             $scope.labelsConjunto = tiempoi;
                             $scope.seriePerfilConjunto = ['seleccione un registro'];
-                            $scope.dataPerfilConjunto=[[valu.s6,valu.s7,valu.s8,valu.s9,valu.s10]];
+                            $scope.dataPerfilConjunto=[[valu.s7,valu.s8,valu.s9,valu.s10,valu.s11,valu.s12]];
                         }
                     }
                 }
@@ -194,11 +208,11 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
 
     //graficos
     //grafico de linea de tiempo
-    $scope.series = ['Sensor 1', 'Sensor 2','Sensor 3', 'Sensor 4','Sensor 5'];
+    $scope.series = ['Sensor 0','Sensor 1', 'Sensor 2','Sensor 3', 'Sensor 4','Sensor 5'];
 
     //datos de la aleta simple
     $scope.labels= [];
-    $scope.data = [[],[],[],[],[]];
+    $scope.data = [[],[],[],[],[],[]];
 
     //grafico de perfil de temperatura
     $scope.series1 = [];
@@ -207,7 +221,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
 
     //datos de la aleta conjunto
     $scope.labelsConjunto= [];
-    $scope.dataConjunto = [[],[],[],[],[]];
+    $scope.dataConjunto = [[],[],[],[],[],[]];
 
     //grafico de perfil de temperatura
     $scope.seriePerfilConjunto = [];
@@ -242,13 +256,12 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
         //selecciona el registro que se quiere mostrar en el perfil de temperatura
         if (aleta == 1){
             $scope.series1 = ['temperaturas en: '+dato.tiempo+' segundos'];
-            $scope.data1 = [[dato.s1, dato.s2, dato.s3, dato.s4, dato.s5]];
+            $scope.data1 = [[dato.s1, dato.s2, dato.s3, dato.s4, dato.s5, dato.s6]];
         }
         if (aleta == 2){
             $scope.seriePerfilConjunto = ['temperaturas en: '+dato.tiempo+' segundos'];
-            $scope.dataPerfilConjunto = [[dato.s6, dato.s7, dato.s8, dato.s9, dato.s10]];
+            $scope.dataPerfilConjunto = [[dato.s7, dato.s8, dato.s9, dato.s10, dato.s11, dato.s12]];
         }
-
     };
 
 
@@ -400,7 +413,9 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 s7: valores.s7,
                 s8: valores.s8,
                 s9: valores.s9,
-                s10: valores.s10
+                s10: valores.s10,
+                s11: valores.s11,
+                s12: valores.s12
                 //hornos
             };
 
@@ -417,22 +432,24 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 $scope.data[2].push(valores.s3);
                 $scope.data[3].push(valores.s4);
                 $scope.data[4].push(valores.s5);
+                $scope.data[5].push(valores.s6);
 
                 $scope.series1 = ['temperatura del segundo '+tiempo];
-                $scope.data1 = [[valores.s1, valores.s2, valores.s3, valores.s4, valores.s5]];
+                $scope.data1 = [[valores.s1, valores.s2, valores.s3, valores.s4, valores.s5, valores.s6]];
             }
 
             if($scope.prueba.aletaConjunto.estado){
                 $scope.labelsConjunto.push(tiempo);
 
-                $scope.dataConjunto[0].push(valores.s6);
-                $scope.dataConjunto[1].push(valores.s7);
-                $scope.dataConjunto[2].push(valores.s8);
-                $scope.dataConjunto[3].push(valores.s9);
-                $scope.dataConjunto[4].push(valores.s10);
+                $scope.dataConjunto[0].push(valores.s7);
+                $scope.dataConjunto[1].push(valores.s8);
+                $scope.dataConjunto[2].push(valores.s9);
+                $scope.dataConjunto[3].push(valores.s10);
+                $scope.dataConjunto[4].push(valores.s11);
+                $scope.dataConjunto[5].push(valores.s12);
 
                 $scope.seriePerfilConjunto = ['temperatura del segundo '+tiempo];
-                $scope.dataPerfilConjunto = [[valores.s6, valores.s7, valores.s8, valores.s9, valores.s10]];
+                $scope.dataPerfilConjunto = [[valores.s7, valores.s8, valores.s9, valores.s10, valores.s11, valores.s12]];
             }
         }, 3000);//set time
     };
@@ -453,9 +470,9 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
 
     //remueve todos los datos de la aplicacion
     function vaciar() {
-        $scope.data = [[],[],[],[],[]];
+        $scope.data = [[],[],[],[],[],[]];
         $scope.labels= [];
-        $scope.dataConjunto = [[],[],[],[],[]];
+        $scope.dataConjunto = [[],[],[],[],[],[]];
         $scope.labelsConjunto= [];
         $scope.capturas = {
             lista: []

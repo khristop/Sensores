@@ -100,6 +100,7 @@ block content
                                                                         thead
                                                                             tr
                                                                                 th Tiempo(Segundos)
+                                                                                th Sensor h
                                                                                 th Sensor 1
                                                                                 th Sensor 2
                                                                                 th Sensor 3
@@ -114,6 +115,7 @@ block content
                                                                                 td {{val.s3}} °C
                                                                                 td {{val.s4}} °C
                                                                                 td {{val.s5}} °C
+                                                                                td {{val.s6}} °C
                                                                                 td
                                                                                     a.btn.btn-info(ng-click="seleccionar(1,val)") seleccionar
 
@@ -141,6 +143,7 @@ block content
                                                                         thead
                                                                             tr
                                                                                 th Tiempo(Segundos)
+                                                                                th Sensor h
                                                                                 th Sensor 1
                                                                                 th Sensor 2
                                                                                 th Sensor 3
@@ -150,11 +153,12 @@ block content
                                                                         tbody
                                                                             tr(ng-repeat="val in capturas.lista")
                                                                                 td {{val.tiempo}} s
-                                                                                td {{val.s6}} °C
                                                                                 td {{val.s7}} °C
                                                                                 td {{val.s8}} °C
                                                                                 td {{val.s9}} °C
                                                                                 td {{val.s10}} °C
+                                                                                td {{val.s11}} °C
+                                                                                td {{val.s12}} °C
                                                                                 td
                                                                                     a.btn.btn-info(ng-click="seleccionar(2,val)") seleccionar
 
