@@ -4,6 +4,8 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
     $scope.pruebaEnProgreso= false; //cuando se le da al boton iniciar
     $scope.sentencia = true;
     $scope.estadoPrueba = 1;
+    $scope.configuracion = false;
+    $scope.desact = [false,false,false,false,false,false];
     /*
         Estados de la prueba:
             1: sin iniciar o cancelada
@@ -14,6 +16,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
 
     var captura;
     var contador = 0;
+
 
     $scope.capturas={
         lista : [],
@@ -208,7 +211,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
 
     //graficos
     //grafico de linea de tiempo
-    $scope.series = ['Sensor 0','Sensor 1', 'Sensor 2','Sensor 3', 'Sensor 4','Sensor 5'];
+    $scope.series = ['0 cm','6 cm', '12 cm','18 cm', '24 cm','30 cm'];
 
     //datos de la aleta simple
     $scope.labels= [];
@@ -400,6 +403,30 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
             //get data from broadcast
             var valores = $scope.dato;
 
+            if($scope.desact[0]) {
+                valores.s1=0;
+                valores.s7=0;}
+            if($scope.desact[1]) {
+                valores.s2=0;
+                valores.s8=0;
+            }
+            if($scope.desact[2]) {
+                valores.s3=0;
+                valores.s9=0;
+            }
+            if($scope.desact[3]) {
+                valores.s4=0;
+                valores.s10=0;
+            }
+            if($scope.desact[4]) {
+                valores.s5=0;
+                valores.s11=0;
+            }
+            if($scope.desact[5]) {
+                valores.s6=0;
+                valores.s12=0;
+            }
+
             captura = {
                 id: contador,
                 tiempo: tiempo,
@@ -451,7 +478,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 $scope.seriePerfilConjunto = ['temperatura del segundo '+tiempo];
                 $scope.dataPerfilConjunto = [[valores.s7, valores.s8, valores.s9, valores.s10, valores.s11, valores.s12]];
             }
-        }, 3000);//set time
+        }, 5000);//set time
     };
 
     $scope.$on('timer-tick', function (event, args) {

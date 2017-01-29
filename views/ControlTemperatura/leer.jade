@@ -54,6 +54,50 @@ block content
                                                     h6 estado:
                                                         span.label.label-success(ng-if="prueba.realizada") realizada
                                                         span.label.label-warning(ng-if="!prueba.realizada") sin realizar
+                                                hr
+                                            .row
+                                                .col-md-12
+                                                    h5 Configuraciones extra de sensores
+                                                    .row
+                                                        .col-sm-4
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-model="configuracion", ng-disabled="pruebaEnProgreso")
+                                                                label.form-control desactivar sensores
+
+                                                    .row(ng-if="configuracion")
+                                                        hr
+                                                        .col-sm-2
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-disabled="pruebaEnProgreso", ng-model="desact[0]")
+                                                                label.form-control s 0
+                                                        .col-sm-2
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-disabled="pruebaEnProgreso", ng-model="desact[1]")
+                                                                label.form-control s 1
+                                                        .col-sm-2
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-disabled="pruebaEnProgreso", ng-model="desact[2]")
+                                                                label.form-control s 2
+                                                        .col-sm-2
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-disabled="pruebaEnProgreso", ng-model="desact[3]")
+                                                                label.form-control s 3
+                                                        .col-sm-2
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-disabled="pruebaEnProgreso", ng-model="desact[4]")
+                                                                label.form-control s 4
+                                                        .col-sm-2
+                                                            .input-group
+                                                                span.input-group-addon
+                                                                    input(type="checkbox", ng-disabled="pruebaEnProgreso", ng-model="desact[5]")
+                                                                label.form-control s 5
+
                             .row
                                 .col-md-12
                                     hr
@@ -99,7 +143,7 @@ block content
                                                                     table.table.table-bordered.table-striped.table-responsive
                                                                         thead
                                                                             tr
-                                                                                th Tiempo(Segundos)
+                                                                                th Tiempo(seg)
                                                                                 th Sensor h
                                                                                 th Sensor 1
                                                                                 th Sensor 2

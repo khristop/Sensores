@@ -87,8 +87,8 @@ io.on('connection', function (socket) {
 
 //puerto serial
 //linux port /dev/ttyACM0
-// windows port
-var mySerial = new SerialPort("COM3",{
+// windows port COM3
+var mySerial = new SerialPort("/COM3",{
     baudrate:115200,
     parser: serialport.parsers.readline("\n")
 });
