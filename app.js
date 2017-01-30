@@ -106,12 +106,13 @@ mySerial.on("data", function (dato) {
   }
 });
 
+/*
 var livereload = require('livereload').createServer({
     exts:['js','css','jade']
 });
 
 livereload.watch(path.join(__dirname, 'views'));
 livereload.watch(path.join(__dirname, 'public'));
-
+*/
 //hasta aca
 module.exports = app;

@@ -6,6 +6,8 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
     $scope.estadoPrueba = 1;
     $scope.configuracion = false;
     $scope.desact = [false,false,false,false,false,false];
+    $scope.intervalo = 5000;
+    $scope.multiple = 'active';
     /*
         Estados de la prueba:
             1: sin iniciar o cancelada
@@ -34,6 +36,8 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
             url: $location.absUrl().replace("http://localhost:3000/prueba/","/prueba/obtener/")
         }).success(function (data) {
             $scope.prueba= data.p;
+            $scope.intervalo = data.inter*1000;
+            console.log(data.inter);
             var sensor=0;
             var valu={s1: [], s2: [], s3: [], s4: [], s5: [], s6: [], s7:[], s8:[], s9:[], s10:[], s11:[], s12:[]};
             var tiempoi=[];
@@ -123,6 +127,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 var as;
                 for(j = 0; j < tiempoi.length; j++){
                     if($scope.prueba.conjunto){
+                        $scope.multiple = '';
                         as = {
                             s1: valu.s1[j],
                             s2: valu.s2[j],
@@ -370,7 +375,6 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 indi++;
             }
         }
-
         $http({
             method: "POST",
             url: "/prueba/"+$scope.prueba._id,
@@ -379,7 +383,8 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
             }
         }).success( function (data) {
             if(data.status == 'ok'){
-                alert('todo bien');
+                $scope.prueba.realizada = true;
+                swal("Prueba registrada","los datos han sido guardados","success");
             }else {
                 alert('el server tiene problemas');
             }
@@ -475,7 +480,7 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 $scope.seriePerfilConjunto = ['temperatura del segundo '+tiempo];
                 $scope.dataPerfilConjunto = [[valores.s7, valores.s8, valores.s9, valores.s10, valores.s11, valores.s12]];
             }
-        }, 5000);//set time
+        }, $scope.intervalo);//set time
     };
 
     $scope.$on('timer-tick', function (event, args) {

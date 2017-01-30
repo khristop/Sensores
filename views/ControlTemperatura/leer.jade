@@ -39,6 +39,7 @@ block content
                                                     h6 Carnet de estudiante: {{prueba.carnet}}
                                                     h6 Descripcion: {{prueba.descripcion}}
                                                     h6 Fecha de creacion: {{prueba.fecha | date: 'medium'}}
+
                                                 .col-md-6
                                                     h5 aletas
                                                     h6(ng-if="prueba.aletaSimple.estado") aleta simple :
@@ -54,8 +55,9 @@ block content
                                                     h6 estado:
                                                         span.label.label-success(ng-if="prueba.realizada") realizada
                                                         span.label.label-warning(ng-if="!prueba.realizada") sin realizar
+                                                    h6(ng-if="!prueba.realizada") Intervalo actual: {{intervalo/1000}} seg - modificar en configuracion
                                                 hr
-                                            .row
+                                            .row(ng-if="!prueba.realizada")
                                                 .col-md-12
                                                     h5 Configuraciones extra de sensores
                                                     .row
@@ -163,7 +165,7 @@ block content
                                                                                 td
                                                                                     a.btn.btn-info(ng-click="seleccionar(1,val)") seleccionar
 
-                                                        #aleta2.tab-pane.active(role='tabpanel', ng-if="prueba.aletaConjunto.estado")
+                                                        #aleta2.tab-pane(ng-class="multiple",role='tabpanel', ng-if="prueba.aletaConjunto.estado")
                                                             .col-lg-12.col-md-12
                                                                 h3 Aleta de Conjunto, {{prueba.aletaConjunto.material.nombre}} - {{prueba.aletaConjunto.tipo.forma}}
                                                             .col-lg-5.col-md-12
@@ -186,7 +188,7 @@ block content
                                                                     table.table.table-bordered.table-striped.table-responsive
                                                                         thead
                                                                             tr
-                                                                                th Tiempo(Segundos)
+                                                                                th Tiempo(seg)
                                                                                 th Sensor h
                                                                                 th Sensor 1
                                                                                 th Sensor 2
@@ -219,8 +221,10 @@ block content
                                                     a.btn.btn-lg.btn-success( ng-click="registrarDatos()" ) guardar resultado
                                             .row(ng-if="prueba.realizada")
                                                 .col-md-12
-                                                    a.btn.btn-lg.btn-danger(ng-click="eliminarPrueba") eliminar prueba
+                                                    a.btn.btn-lg.btn-info(onclick="window.print();") imprimir
 append script
     script(src="/javascripts/angular/controladores/prueba.js")
+
+
 
 

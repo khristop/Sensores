@@ -8,6 +8,8 @@ var router = express.Router();
 
 var Prueba = require('../models/Prueba');
 var Resultado = require('../models/Resultado');
+var Configurar = require('../models/Configuracion');
+
 /* GET home page. */
 
 router.get('/', function (req, res) {
@@ -89,7 +91,11 @@ router.get('/:idp', function(req, res) {
         if(err){
             res.render("error404", {});
         }else {
-            res.render('ControlTemperatura/leer', { title: 'Prueba', p:prueba});
+            if(prueba){
+                res.render('ControlTemperatura/leer', { title: 'Prueba', p:prueba});
+            }else {
+                res.render("error404", {});
+            }
         }
     });
 });
@@ -100,7 +106,14 @@ router.get('/obtener/:idp', function(req, res) {
         if(err){
             res.render("error404", {});
         }else {
-            res.send({ p:prueba});
+            Configurar.getTiempo(function (err, conf) {
+                if (err) throw err;
+                else {
+                    res.send({  p:prueba,
+                                inter: conf[0].tiempo});
+                }
+            })
+
         }
     });
 });
@@ -128,7 +141,6 @@ router.post('/:idp', function (req, res) {
                 if(err){
                     res.send({status:"error al vincular resultados"});
                 }else{
-
                     res.send({status:"ok"});
                 }
             })
