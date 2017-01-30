@@ -120,8 +120,6 @@ router.post('/:idp', function (req, res) {
     if(datos.aleta2){
         resu.aleta2= datos.aleta2;
     }
-
-    console.log(resu);
     Resultado.registrarResultados(resu, function (err, objeto) {
         if(err){
             res.send({status:"error al guardar resultados"});

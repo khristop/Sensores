@@ -307,7 +307,6 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
         $scope.stop();
         swal("Prueba finalizada con exito","los resultados de la prueba se muestran en pantalla","success");
         $scope.estadoPrueba= 3;
-        console.log($scope.capturas);
     };
 
     $scope.reiniciar = function () {
@@ -371,8 +370,6 @@ app.controller('temperatura', ['$scope','$interval','$http', '$location', functi
                 indi++;
             }
         }
-
-        console.log(datos);
 
         $http({
             method: "POST",

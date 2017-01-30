@@ -24,7 +24,6 @@ router.get('/', function(req, res, next) {
 
 router.get('/aleta/:ida', function (req, res) {
     var ida = req.params.ida;
-    console.log(ida);
     Aleta.getAletaById(ida, function (err, alet) {
         if(err){
             res.send("404");
@@ -85,7 +84,6 @@ router.delete("/aleta/:ida", function (req, res) {
 
 router.get('/material/:idm', function (req, res) {
     var idm = req.params.idm;
-    console.log(idm);
     Material.getMaterialById(idm, function (err, materi) {
         if(err){
             res.send("404");

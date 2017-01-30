@@ -81,7 +81,6 @@ app.controller('Formulario', function ($scope, $http, $window) {
                     function(isConfirm){
                         $window.location.href = '/prueba/'+data.id;
                     });
-                console.log(data.id)
             }else{
                 sweetAlert("error", "Error al crear la cuenta", "error");
             }

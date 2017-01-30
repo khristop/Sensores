@@ -79,7 +79,7 @@ serv.listen(8080, "127.0.0.1");
 //socket io
 
 io.on('connection', function (socket) {
-  console.log("alguien se conecto");
+  console.log("arduino conectado");
   socket.on('disconnect', function () {
       console.log("alguien se desconecto")
   });

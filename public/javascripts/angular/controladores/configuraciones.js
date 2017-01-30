@@ -55,7 +55,6 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
             method: 'GET',
             url: '/admin/material/'+idm
         }).success(function(data){
-            console.log(data);
             if(data.status == 'ok'){
                 $scope.mnombre = data.material.nombre;
                 $scope.mdescripcion = data.material.descripcion;
@@ -70,7 +69,6 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
     }
 
     $scope.actualizarMaterial = function () {
-        console.log($scope.idupdatematerial);
         $http({
             method: 'POST',
             url: '/admin/material/actualizar',
@@ -163,7 +161,6 @@ app.controller('Admininstracion', function ($scope, $http, $window) {
             method: 'GET',
             url: '/admin/aleta/'+ida
         }).success(function(data){
-            console.log(data);
             if(data.status == 'ok'){
                 $scope.mforma = data.aleta.forma;
                 $scope.mdesaleta= data.aleta.descripcion;
